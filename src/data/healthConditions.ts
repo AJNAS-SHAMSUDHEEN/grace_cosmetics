@@ -111,3 +111,4 @@ export const HEALTH_CONDITIONS: HealthCondition[] = [
     productIds: ['lumiere-gold-radiance-serum', 'lumiere-hydra-glow-serum', 'triskin-resurfacing-glycolic-pad', 'triskin-hydra-barrier-essence'],
   },
 ];
+
