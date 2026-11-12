@@ -137,3 +137,4 @@ export const TargetedSolutions: React.FC<TargetedSolutionsProps> = ({ onShopColl
     </section>
   );
 };
+

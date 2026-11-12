@@ -98,3 +98,4 @@ export const SkinConcerns: React.FC<SkinConcernsProps> = ({
     </section>
   );
 };
+

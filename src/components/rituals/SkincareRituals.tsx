@@ -91,3 +91,4 @@ export const SkincareRituals: React.FC<SkincareRitualsProps> = ({ onSelectStep }
     </section>
   );
 };
+

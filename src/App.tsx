@@ -73,8 +73,11 @@ const MainAppContent: React.FC = () => {
         </div>
       )}
 
-      {/* 2. Hero Section: "GLOW WITH HEALTHY SKIN" + 3D Pastel Cosmetic Bottles */}
-      <LumiereHero onShopNow={() => scrollToSection('products')} />
+      {/* 2. Hero Section: "GLOW WITH HEALTHY SKIN" + Modern Chat "Find Your Solution" + 3D Pastel Bottles */}
+      <LumiereHero
+        onShopNow={() => scrollToSection('products')}
+        onOpenDetail={(id) => setActiveDetailProductId(id)}
+      />
 
       {/* 3. Section: "Explore Beauty Categories" (Cosmetics, Skincare, Eye, Hair, Machines) */}
       <BeautyCategories onSelectCategory={handleSelectCategory} />

@@ -149,3 +149,4 @@ export const LumiereHero3D: React.FC = () => {
     </div>
   );
 };
+

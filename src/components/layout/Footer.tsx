@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Check, Heart, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 
 interface FooterProps {
   onNavigateSection: (sectionId: string) => void;

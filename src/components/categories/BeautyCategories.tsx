@@ -79,3 +79,4 @@ export const BeautyCategories: React.FC<BeautyCategoriesProps> = ({ onSelectCate
     </section>
   );
 };
+

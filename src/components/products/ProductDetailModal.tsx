@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Product } from '../../types';
 import { PRODUCTS } from '../../data/products';
-import { X, Star, Heart, ShoppingBag, Plus, Minus, Check, ShieldCheck, Sparkles, Droplets } from 'lucide-react';
+import { X, Star, Heart, ShoppingBag, Plus, Minus, Check } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 
