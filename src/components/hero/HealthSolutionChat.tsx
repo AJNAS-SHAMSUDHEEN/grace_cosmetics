@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { HEALTH_CONDITIONS, HealthCondition } from '../../data/healthConditions';
 import { PRODUCTS } from '../../data/products';
 import { Product } from '../../types';
-import { Search, X, ShoppingBag, ArrowRight, Sparkles, Check } from 'lucide-react';
+import { Search, X, ShoppingBag, Check } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 interface HealthSolutionChatProps {
@@ -17,12 +17,12 @@ export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({ onOpenDe
   const [isFocused, setIsFocused] = useState(false);
 
   const quickConditions = [
-    { label: 'Acne', query: 'acne' },
-    { label: 'Eczema', query: 'eczema' },
-    { label: 'Rosacea', query: 'rosacea' },
-    { label: 'Melasma', query: 'melasma' },
-    { label: 'Dryness', query: 'dryness' },
-    { label: 'Wrinkles', query: 'wrinkles' },
+    { label: 'Acne & Breakouts', query: 'acne' },
+    { label: 'Eczema & Itch', query: 'eczema' },
+    { label: 'Rosacea & Redness', query: 'rosacea' },
+    { label: 'Melasma & Spots', query: 'melasma' },
+    { label: 'Severe Dryness', query: 'dryness' },
+    { label: 'Fine Lines', query: 'wrinkles' },
     { label: 'Dark Circles', query: 'dark circles' },
     { label: 'Psoriasis', query: 'psoriasis' },
   ];
@@ -110,17 +110,7 @@ export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({ onOpenDe
 
   return (
     <div className="w-full space-y-3">
-      {/* 1. Heading: "Find Your Solution" */}
-      <div className="space-y-1">
-        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1A1A1A] tracking-tight">
-          Find Your Solution
-        </h3>
-        <p className="text-xs sm:text-sm text-[#666666]">
-          Search by disease, health condition, symptom, or skin problem to discover targeted products.
-        </p>
-      </div>
-
-      {/* 2. Prominent Search Bar */}
+      {/* Prominent Search Bar */}
       <div className="relative">
         <div
           className={`relative flex items-center bg-white rounded-full border transition-all duration-300 shadow-sm ${
@@ -160,16 +150,16 @@ export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({ onOpenDe
         </div>
 
         {/* Quick Suggestion Pills */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-2">
-          <span className="text-[11px] font-medium text-[#7E69AB] mr-1">Popular:</span>
+        <div className="flex flex-wrap items-center gap-1.5 pt-2.5">
+          <span className="text-[11px] font-semibold text-[#7E69AB] mr-1">Popular Concerns:</span>
           {quickConditions.map((qc) => (
             <button
               key={qc.query}
               onClick={() => handleSelectCondition(qc.query)}
-              className={`px-3 py-1 rounded-full text-xs transition-colors border ${
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors border ${
                 searchInput.toLowerCase() === qc.query.toLowerCase()
                   ? 'bg-[#5B4296] text-white border-[#5B4296]'
-                  : 'bg-white hover:bg-[#F3EEFA] text-[#554D69] border-[#E8DEF5]'
+                  : 'bg-white/80 hover:bg-[#F3EEFA] text-[#554D69] border-[#E8DEF5]'
               }`}
             >
               {qc.label}
@@ -177,7 +167,7 @@ export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({ onOpenDe
           ))}
         </div>
 
-        {/* 3. Relevant Products Display (Appears right below search bar when query matches) */}
+        {/* Relevant Products Display (Appears smoothly when query matches) */}
         {activeCondition && (
           <div className="mt-3 p-4 sm:p-5 rounded-2xl bg-white border border-[#E8DEF5] shadow-xl animate-fade-in space-y-3">
             {/* Condition Header Bar */}
