@@ -103,3 +103,4 @@ export const BrandStory: React.FC<BrandStoryProps> = ({ onExploreCollection }) =
     </section>
   );
 };
+

@@ -89,3 +89,4 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = ({ onSele
     </section>
   );
 };
+

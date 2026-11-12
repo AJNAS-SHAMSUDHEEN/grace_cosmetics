@@ -67,3 +67,4 @@ export const INGREDIENTS: Ingredient[] = [
     color: '#C5A059',
   },
 ];
+

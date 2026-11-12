@@ -133,3 +133,4 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetail 
     </div>
   );
 };
+

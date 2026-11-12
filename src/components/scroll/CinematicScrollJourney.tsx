@@ -206,3 +206,4 @@ export const CinematicScrollJourney: React.FC<CinematicScrollJourneyProps> = ({ 
     </section>
   );
 };
+

@@ -143,3 +143,4 @@ npm run preview
 - [x] Best sellers carousel & brand story editorial
 - [x] Responsive layout on mobile, tablet, and desktop
 - [x] Clean TypeScript build with zero errors
+

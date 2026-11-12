@@ -291,3 +291,4 @@ export const LuxuryBottle3D: React.FC<LuxuryBottle3DProps> = ({
     </group>
   );
 };
+

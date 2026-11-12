@@ -271,3 +271,4 @@ export const InteractiveDiscovery: React.FC<InteractiveDiscoveryProps> = ({ onOp
     </section>
   );
 };
+

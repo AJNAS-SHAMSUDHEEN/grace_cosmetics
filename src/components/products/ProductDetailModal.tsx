@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Product } from '../../types';
 import { PRODUCTS } from '../../data/products';
-import { X, Star, Heart, ShoppingBag, Plus, Minus, Check, ShieldCheck, Sparkles, Droplets, RotateCcw } from 'lucide-react';
+import { X, Star, Heart, ShoppingBag, Plus, Minus, Check, ShieldCheck, Sparkles, Droplets } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 
@@ -9,14 +9,13 @@ interface ProductDetailModalProps {
   productId: string | null;
   onClose: () => void;
   onOpenAnotherProduct: (id: string) => void;
-  onOpen3dStudio: () => void;
+  onOpen3dStudio?: () => void;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   productId,
   onClose,
   onOpenAnotherProduct,
-  onOpen3dStudio,
 }) => {
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -33,9 +32,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const currentImage = selectedImage || product.image;
   const isFavorited = isInWishlist(product.id);
 
-  // Related products from same category or Triskin line
   const relatedProducts = PRODUCTS.filter(
-    (p) => p.id !== product.id && (p.category === product.category || p.name.includes('Triskin'))
+    (p) => p.id !== product.id && (p.category === product.category || p.name.includes('Lumière'))
   ).slice(0, 3);
 
   const handleAddToCart = () => {
@@ -48,151 +46,125 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-300"
+        className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
-      <div className="relative min-h-screen flex items-center justify-center p-3 sm:p-6 lg:p-10">
-        <div className="relative w-full max-w-5xl bg-luxury-dark border border-luxury-gold/30 rounded-3xl overflow-hidden shadow-2xl z-10 glass-panel">
+      <div className="relative min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div className="relative w-full max-w-4xl bg-white border border-[#E8DEF5] rounded-3xl overflow-hidden shadow-2xl z-10">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 z-20 p-2.5 rounded-full bg-luxury-dark/80 text-white/70 hover:text-white border border-white/10 hover:border-luxury-gold/40 transition-colors shadow-lg"
+            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 hover:bg-white text-gray-500 hover:text-gray-900 border border-gray-200 transition-colors shadow-xs"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-10">
-            {/* LEFT: Product Gallery & 3D trigger (6 cols) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8">
+            {/* Gallery Left */}
             <div className="lg:col-span-6 space-y-4">
-              {/* Main Image Frame */}
-              <div className="relative h-[380px] sm:h-[460px] rounded-2xl overflow-hidden border border-white/10 bg-black/50 flex items-center justify-center group">
+              <div className="relative h-[360px] sm:h-[420px] rounded-2xl overflow-hidden border border-[#EAE4F5] bg-[#FAF9F7] flex items-center justify-center group">
                 <img
                   src={currentImage}
                   alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
-                {/* 3D Laboratory Badge / Button */}
-                {product.is3dAvailable && (
-                  <button
-                    onClick={() => {
-                      onClose();
-                      onOpen3dStudio();
-                    }}
-                    className="absolute bottom-4 left-4 bg-luxury-dark/90 backdrop-blur-md border border-luxury-gold/40 px-3.5 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider text-luxury-gold hover:bg-luxury-gold hover:text-luxury-dark transition-all flex items-center space-x-1.5 shadow-xl"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Launch 3D Laboratory</span>
-                  </button>
-                )}
-
-                {/* Wishlist toggle */}
                 <button
                   onClick={() => toggleWishlist(product.id)}
-                  className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-md transition-all ${
+                  className={`absolute top-4 right-4 p-2.5 rounded-full transition-all shadow-xs ${
                     isFavorited
-                      ? 'bg-luxury-gold text-luxury-dark'
-                      : 'bg-luxury-dark/70 text-white/70 hover:text-white border border-white/10'
+                      ? 'bg-lumiere-purple text-white'
+                      : 'bg-white/80 text-gray-500 hover:text-lumiere-purple'
                   }`}
                 >
-                  <Heart className={`w-4 h-4 ${isFavorited ? 'fill-luxury-dark' : ''}`} />
+                  <Heart className={`w-4 h-4 ${isFavorited ? 'fill-white' : ''}`} />
                 </button>
               </div>
 
-              {/* Gallery Thumbnails */}
-              <div className="flex space-x-3 overflow-x-auto pb-2">
+              {/* Thumbnails */}
+              <div className="flex space-x-3 overflow-x-auto pb-1">
                 {product.gallery.map((imgUrl, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(imgUrl)}
-                    className={`w-18 h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
-                      currentImage === imgUrl ? 'border-luxury-gold scale-105 shadow-md' : 'border-white/10 opacity-60 hover:opacity-100'
+                    className={`w-16 h-18 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
+                      currentImage === imgUrl ? 'border-lumiere-purple scale-105' : 'border-gray-200 opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={imgUrl} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" />
+                    <img src={imgUrl} alt={`Thumb ${i + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
-
-              {/* Purity Guarantee */}
-              <div className="p-3.5 rounded-2xl bg-luxury-espresso/50 border border-luxury-gold/15 flex items-center space-x-3 text-xs font-mono text-luxury-champagne">
-                <ShieldCheck className="w-5 h-5 text-luxury-gold shrink-0" />
-                <span>Cold-Chain Certified • Formulated in Swiss Cryo-Cleanrooms</span>
-              </div>
             </div>
 
-            {/* RIGHT: Product Information, Active Compounds, Add to Bag (6 cols) */}
-            <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                {/* Category & Tag */}
-                <div className="flex items-center space-x-3">
-                  <span className="text-xs font-mono uppercase tracking-[0.2em] text-luxury-gold">
+            {/* Product Information Right */}
+            <div className="lg:col-span-6 flex flex-col justify-between space-y-5">
+              <div className="space-y-3.5">
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs uppercase tracking-wider font-bold text-lumiere-purple">
                     {product.category}
                   </span>
                   {product.tag && (
-                    <span className="px-2.5 py-0.5 rounded-full bg-luxury-gold/20 text-luxury-gold border border-luxury-gold/30 text-[10px] font-mono uppercase tracking-wider">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#F3EEFA] text-lumiere-purple text-[10px] font-bold uppercase tracking-wider">
                       {product.tag}
                     </span>
                   )}
                 </div>
 
-                {/* Title */}
-                <h2 className="font-serif text-3xl sm:text-4xl text-luxury-ivory font-light leading-tight">
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1A1A1A] leading-tight">
                   {product.name}
                 </h2>
 
-                <p className="text-sm font-sans text-white/60 leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#554D69] leading-relaxed">
                   {product.description}
                 </p>
 
                 {/* Rating & Volume */}
-                <div className="flex items-center justify-between border-y border-white/10 py-3 text-xs font-mono">
-                  <div className="flex items-center space-x-2">
-                    <div className="flex text-luxury-gold">
+                <div className="flex items-center justify-between border-y border-[#F0EBF7] py-2.5 text-xs">
+                  <div className="flex items-center space-x-1.5">
+                    <div className="flex text-amber-400">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-luxury-gold text-luxury-gold" />
+                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
-                    <span className="text-white/80 font-semibold">{product.rating}</span>
-                    <span className="text-white/40">({product.reviewCount} Reviews)</span>
+                    <span className="font-semibold text-gray-800">{product.rating}</span>
+                    <span className="text-gray-400">({product.reviewCount} Reviews)</span>
                   </div>
-                  <span className="text-luxury-champagne font-medium">{product.volume}</span>
+                  <span className="text-gray-500 font-medium">{product.volume}</span>
                 </div>
 
                 {/* Price Display */}
                 <div className="flex items-baseline space-x-3">
-                  <span className="font-serif text-3xl sm:text-4xl text-luxury-gold font-light">
+                  <span className="font-serif text-3xl font-bold text-[#1A1A1A]">
                     ${product.price}
                   </span>
                   {product.originalPrice && (
-                    <span className="text-sm font-mono text-white/40 line-through">
+                    <span className="text-sm text-gray-400 line-through">
                       ${product.originalPrice}
                     </span>
                   )}
-                  <span className="text-[11px] font-mono text-emerald-400">
-                    Complimentary Courier Included
+                  <span className="text-xs text-emerald-600 font-medium">
+                    Free Delivery Available
                   </span>
                 </div>
 
                 {/* Active Bio-Compounds High-Tech Table */}
-                <div className="space-y-2 pt-2">
-                  <span className="text-xs font-mono uppercase tracking-wider text-luxury-champagne block">
-                    Active Molecular Matrix
+                <div className="space-y-2 pt-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#4A3578] block">
+                    Key Active Ingredients
                   </span>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {product.activeCompounds.map((ac, idx) => (
                       <div
                         key={idx}
-                        className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between text-xs"
+                        className="p-2 rounded-xl bg-[#FAF9F7] border border-[#EFEBF7] flex items-center justify-between text-xs"
                       >
                         <div>
-                          <strong className="text-luxury-ivory font-mono font-medium block">
-                            {ac.name}
-                          </strong>
-                          <span className="text-[11px] text-white/50">{ac.description}</span>
+                          <strong className="text-gray-900 block">{ac.name}</strong>
+                          <span className="text-[11px] text-gray-500">{ac.description}</span>
                         </div>
-                        <span className="font-mono text-luxury-gold font-bold ml-3 px-2 py-0.5 rounded bg-luxury-gold/10">
+                        <span className="font-semibold text-lumiere-purple ml-2 px-2 py-0.5 rounded bg-[#EFEBF7]">
                           {ac.percentage}
                         </span>
                       </div>
@@ -200,152 +172,104 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   </div>
                 </div>
 
-                {/* Tabbed Info: Benefits / Ingredients / Directions */}
+                {/* Tabbed Info */}
                 <div className="pt-2">
-                  <div className="flex border-b border-white/10 space-x-6 text-xs font-mono uppercase tracking-wider">
+                  <div className="flex border-b border-[#F0EBF7] space-x-6 text-xs uppercase tracking-wider">
                     <button
                       onClick={() => setActiveTab('benefits')}
-                      className={`pb-2 transition-colors relative ${
-                        activeTab === 'benefits' ? 'text-luxury-gold font-semibold' : 'text-white/40 hover:text-white'
+                      className={`pb-2 font-bold transition-colors relative ${
+                        activeTab === 'benefits' ? 'text-lumiere-purple' : 'text-gray-400 hover:text-gray-600'
                       }`}
                     >
-                      Key Benefits
+                      Benefits
                       {activeTab === 'benefits' && (
-                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-luxury-gold" />
+                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-lumiere-purple" />
                       )}
                     </button>
                     <button
                       onClick={() => setActiveTab('ingredients')}
-                      className={`pb-2 transition-colors relative ${
-                        activeTab === 'ingredients' ? 'text-luxury-gold font-semibold' : 'text-white/40 hover:text-white'
+                      className={`pb-2 font-bold transition-colors relative ${
+                        activeTab === 'ingredients' ? 'text-lumiere-purple' : 'text-gray-400 hover:text-gray-600'
                       }`}
                     >
-                      Full Formula
+                      Formula
                       {activeTab === 'ingredients' && (
-                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-luxury-gold" />
+                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-lumiere-purple" />
                       )}
                     </button>
                     <button
                       onClick={() => setActiveTab('usage')}
-                      className={`pb-2 transition-colors relative ${
-                        activeTab === 'usage' ? 'text-luxury-gold font-semibold' : 'text-white/40 hover:text-white'
+                      className={`pb-2 font-bold transition-colors relative ${
+                        activeTab === 'usage' ? 'text-lumiere-purple' : 'text-gray-400 hover:text-gray-600'
                       }`}
                     >
-                      Ritual & Usage
+                      How to Use
                       {activeTab === 'usage' && (
-                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-luxury-gold" />
+                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-lumiere-purple" />
                       )}
                     </button>
                   </div>
 
-                  <div className="py-3 text-xs leading-relaxed text-white/70 min-h-[90px]">
+                  <div className="py-2.5 text-xs leading-relaxed text-gray-600 min-h-[70px]">
                     {activeTab === 'benefits' && (
-                      <ul className="space-y-1.5">
+                      <ul className="space-y-1">
                         {product.keyBenefits.map((b, i) => (
-                          <li key={i} className="flex items-start space-x-2">
-                            <Check className="w-3.5 h-3.5 text-luxury-gold shrink-0 mt-0.5" />
+                          <li key={i} className="flex items-start space-x-1.5">
+                            <Check className="w-3.5 h-3.5 text-lumiere-purple shrink-0 mt-0.5" />
                             <span>{b}</span>
                           </li>
                         ))}
                       </ul>
                     )}
-
                     {activeTab === 'ingredients' && (
-                      <p className="text-white/60 font-mono text-[11px] leading-relaxed">
+                      <p className="text-gray-500 text-[11px] leading-relaxed">
                         {product.ingredientsList.join(' • ')}
                       </p>
                     )}
-
                     {activeTab === 'usage' && (
-                      <div className="space-y-2">
-                        <p>{product.usageDirections}</p>
-                        <p className="text-[11px] font-mono text-luxury-gold">
-                          Suitable for: {product.skinType.join(', ')}
-                        </p>
-                      </div>
+                      <p>{product.usageDirections}</p>
                     )}
                   </div>
                 </div>
               </div>
 
-              {/* Quantity Selector & Add to Cart Action */}
-              <div className="space-y-3 pt-4 border-t border-white/10">
-                <div className="flex items-center space-x-4">
-                  {/* Quantity Stepper */}
-                  <div className="flex items-center space-x-3 bg-luxury-espresso border border-luxury-gold/30 rounded-full px-3 py-2">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="text-white/60 hover:text-white p-1"
-                    >
-                      <Minus className="w-3.5 h-3.5" />
-                    </button>
-                    <span className="font-mono text-sm px-2 text-luxury-ivory font-medium">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="text-white/60 hover:text-white p-1"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-
-                  {/* Add to Bag Button */}
+              {/* Quantity & Add to Cart */}
+              <div className="pt-3 border-t border-[#F0EBF7] flex items-center space-x-3">
+                <div className="flex items-center space-x-2 bg-[#F8F5FC] border border-[#E8DEF5] rounded-full px-3 py-2">
                   <button
-                    onClick={handleAddToCart}
-                    className="flex-1 py-3.5 rounded-full bg-gradient-to-r from-luxury-bronze via-luxury-gold to-luxury-lightGold text-luxury-dark font-mono text-xs uppercase tracking-widest font-bold shadow-lg shadow-luxury-gold/25 hover:brightness-110 transition-all flex items-center justify-center space-x-2"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="text-gray-500 hover:text-black p-0.5"
                   >
-                    {addedAnimation ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        <span>Added to Sovereign Bag</span>
-                      </>
-                    ) : (
-                      <>
-                        <ShoppingBag className="w-4 h-4" />
-                        <span>Add to Bag • ${(product.price * quantity).toFixed(2)}</span>
-                      </>
-                    )}
+                    <Minus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="text-xs font-semibold px-2">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="text-gray-500 hover:text-black p-0.5"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
                   </button>
                 </div>
+
+                <button
+                  onClick={handleAddToCart}
+                  className="flex-1 py-3.5 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white text-xs uppercase tracking-widest font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2"
+                >
+                  {addedAnimation ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Added to Bag</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag className="w-4 h-4" />
+                      <span>Add to Bag • ${(product.price * quantity).toFixed(2)}</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
           </div>
-
-          {/* Related Formulations Row */}
-          {relatedProducts.length > 0 && (
-            <div className="p-6 sm:p-10 border-t border-white/10 bg-luxury-espresso/40">
-              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-luxury-gold block mb-4">
-                Complementary Cellular Regimen
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {relatedProducts.map((rel) => (
-                  <div
-                    key={rel.id}
-                    onClick={() => {
-                      setSelectedImage(null);
-                      onOpenAnotherProduct(rel.id);
-                    }}
-                    className="flex items-center space-x-3 p-3 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-luxury-gold/30 cursor-pointer transition-all group"
-                  >
-                    <img
-                      src={rel.image}
-                      alt={rel.name}
-                      className="w-14 h-16 object-cover rounded-xl border border-white/10 group-hover:scale-105 transition-transform"
-                    />
-                    <div>
-                      <h4 className="font-serif text-sm text-luxury-ivory group-hover:text-luxury-champagne line-clamp-1">
-                        {rel.name}
-                      </h4>
-                      <span className="font-mono text-xs text-luxury-gold font-medium block">
-                        ${rel.price}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

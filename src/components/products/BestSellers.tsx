@@ -76,3 +76,4 @@ export const BestSellers: React.FC<BestSellersProps> = ({ onOpenDetail }) => {
     </section>
   );
 };
+

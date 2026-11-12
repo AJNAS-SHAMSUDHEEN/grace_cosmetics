@@ -136,3 +136,4 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
     </section>
   );
 };
+

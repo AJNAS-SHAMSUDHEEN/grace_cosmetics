@@ -7,49 +7,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        luxury: {
-          ivory: '#FAF8F5',
-          cream: '#F4EFE6',
-          beige: '#E7DFD5',
-          sand: '#D6CABE',
-          bronze: '#A68A68',
-          deepBronze: '#7D6346',
-          gold: '#C5A059',
-          lightGold: '#E2CA89',
-          champagne: '#EED9B3',
-          espresso: '#1A1615',
-          dark: '#0F0D0C',
-          charcoal: '#262220',
+        lumiere: {
+          bg: '#FAF9F7',
+          card: '#FFFFFF',
+          lavender: '#E5DDF5',
+          softLilac: '#EFEBF7',
+          lilac: '#D8CEF0',
+          lilacDark: '#BFAFE3',
+          purple: '#5B4296',
+          deepPurple: '#4A3578',
+          royalPurple: '#3B2568',
+          darkNavy: '#131124',
+          grayText: '#666666',
+          mutedText: '#8E8E93',
+          border: '#E8E5DF',
         },
       },
       fontFamily: {
-        serif: ['Cormorant Garamond', 'Playfair Display', 'Georgia', 'serif'],
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['Cinzel', 'Cormorant Garamond', 'serif'],
+        serif: ['Playfair Display', 'Cormorant Garamond', 'Georgia', 'serif'],
+        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        script: ['Alex Brush', 'Caveat', 'cursive'],
       },
-      letterSpacing: {
-        widest: '.25em',
-        ultra: '.35em',
-      },
-      animation: {
-        'float-slow': 'float 7s ease-in-out infinite',
-        'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
-        'spin-slow': 'spin 20s linear infinite',
-      },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-12px)' },
-        },
-        pulseGlow: {
-          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
-          '50%': { opacity: '0.8', transform: 'scale(1.05)' },
-        },
-      },
-      backgroundImage: {
-        'radial-gold': 'radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, rgba(15, 13, 12, 0) 70%)',
-        'luxury-gradient': 'linear-gradient(135deg, #1A1615 0%, #0F0D0C 100%)',
-        'gold-shimmer': 'linear-gradient(90deg, transparent, rgba(226, 202, 137, 0.25), transparent)',
+      borderRadius: {
+        '3xl': '1.75rem',
+        '4xl': '2.25rem',
+        '5xl': '2.75rem',
       },
     },
   },

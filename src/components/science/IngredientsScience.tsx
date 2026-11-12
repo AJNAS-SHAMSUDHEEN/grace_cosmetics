@@ -150,3 +150,4 @@ export const IngredientsScience: React.FC<IngredientsScienceProps> = ({ onSearch
     </section>
   );
 };
+

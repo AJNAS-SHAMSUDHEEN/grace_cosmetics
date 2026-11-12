@@ -65,3 +65,4 @@ export const COLLECTIONS: Collection[] = [
     accentColor: '#C5A059',
   },
 ];
+

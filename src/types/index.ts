@@ -64,3 +64,4 @@ export interface FilterState {
   sortBy: 'featured' | 'price-asc' | 'price-desc' | 'rating';
   skinType: string;
 }
+
