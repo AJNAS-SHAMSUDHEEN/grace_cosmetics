@@ -30,8 +30,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenDetailModal }) => {
       {/* 3. Targeted Solutions */}
       <TargetedSolutions onShopCollection={() => navigate('/solutions')} />
 
-      {/* 4. Products Showcase Preview */}
+      {/* 4. Products Showcase Preview (Curated Featured Selection) */}
       <LumiereProducts
+        limit={4}
         onOpenDetail={(id) => navigate(`/product/${id}`)}
       />
     </div>

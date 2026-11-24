@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { PRODUCTS } from '../../data/products';
 import { Product } from '../../types';
-import { Star, Heart, ShoppingBag, Search, X, Sparkles } from 'lucide-react';
+import { Star, Heart, ShoppingBag, Search, X, Sparkles, ArrowRight } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 
@@ -9,12 +10,14 @@ interface LumiereProductsProps {
   onOpenDetail: (productId: string) => void;
   selectedCategoryFromParent?: string;
   selectedConcernFromParent?: string | null;
+  limit?: number;
 }
 
 export const LumiereProducts: React.FC<LumiereProductsProps> = ({
   onOpenDetail,
   selectedCategoryFromParent,
   selectedConcernFromParent,
+  limit,
 }) => {
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -72,30 +75,46 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
     return result;
   }, [activeCategory, searchQuery, selectedConcernFromParent]);
 
+  // If limit is specified (e.g. on homepage), slice to limit
+  const displayedProducts = useMemo(() => {
+    if (limit && limit > 0) {
+      return filteredProducts.slice(0, limit);
+    }
+    return filteredProducts;
+  }, [filteredProducts, limit]);
+
   return (
-    <section id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-2">
         <div>
+          <div className="inline-flex items-center space-x-1.5 text-[11px] font-bold uppercase tracking-wider text-[#701A33] mb-1">
+            <Sparkles className="w-3.5 h-3.5 text-[#D4A359]" />
+            <span>{limit ? 'Featured Selection' : 'Full Catalog'}</span>
+          </div>
           <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1E0A12] tracking-tight">
-            Original Products
+            {limit ? 'Featured Original Formulations' : 'Original Products'}
           </h2>
-          {selectedConcernFromParent && (
+          {selectedConcernFromParent ? (
             <p className="text-xs text-[#701A33] font-medium mt-1">
               Showing tailored solutions for: <strong>{selectedConcernFromParent}</strong>
+            </p>
+          ) : (
+            <p className="text-xs text-[#7A646E] mt-1">
+              {limit
+                ? 'A curated edit of our most loved K-Beauty and clinical essentials.'
+                : 'Browse our complete catalog of certified authentic formulations.'}
             </p>
           )}
         </div>
 
-        <button
-          onClick={() => {
-            setActiveCategory('All');
-            setSearchQuery('');
-          }}
-          className="text-xs font-semibold text-[#701A33] hover:underline uppercase tracking-wider"
+        <Link
+          to="/catalog"
+          className="text-xs font-semibold text-[#701A33] hover:text-[#520B1E] flex items-center space-x-1 uppercase tracking-wider transition-colors self-start sm:self-auto"
         >
-          View all
-        </button>
+          <span>View All in Catalog</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
 
       {/* Categories Horizontal Tabs */}
@@ -119,7 +138,7 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
       </div>
 
       {/* Products Grid */}
-      {filteredProducts.length === 0 ? (
+      {displayedProducts.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-3xl border border-[#EED9DF] p-8">
           <p className="text-sm text-[#7A646E]">No products found matching your current filter.</p>
           <button
@@ -134,7 +153,7 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {filteredProducts.map((p) => {
+          {displayedProducts.map((p) => {
             const inWishlist = isInWishlist(p.id);
             return (
               <div
@@ -218,6 +237,19 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Button to explore all products if limited on main page */}
+      {limit && filteredProducts.length > limit && (
+        <div className="mt-10 text-center">
+          <Link
+            to="/catalog"
+            className="inline-flex items-center space-x-2.5 px-8 py-3.5 rounded-full bg-[#701A33] hover:bg-[#520B1E] text-white text-xs font-semibold uppercase tracking-widest transition-all shadow-md hover:shadow-lg group"
+          >
+            <span>Explore All {PRODUCTS.length} Formulations</span>
+            <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       )}
     </section>
