@@ -35,13 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#EFEBF7] transition-all">
-      {/* Top Banner Bar */}
-      <div className="bg-[#FAF9F7] border-b border-[#F2EDFA] text-center py-1.5 px-4 text-[11px] text-[#5B4296] font-medium flex items-center justify-center space-x-2">
-        <Sparkles className="w-3 h-3 text-lumiere-purple" />
-        <span>Complimentary Express Delivery on Orders Over $60 • 100% Dermatologist Verified</span>
-      </div>
-
+    <header className="sticky top-0 z-40 bg-transparent border-none transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Left: Brand Name & Main Links */}
         <div className="flex items-center space-x-10">
@@ -56,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-[#4A4A4A]">
+          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-[#3A3A3A]">
             {navLinks.map((link) => {
               const active = isActive(link.path);
               return (
@@ -65,13 +59,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                   to={link.path}
                   className={`relative py-1 transition-colors ${
                     active
-                      ? 'text-lumiere-purple font-semibold'
-                      : 'hover:text-lumiere-purple text-[#4A4A4A]'
+                      ? 'text-[#1A1A1A] font-bold'
+                      : 'hover:text-black text-[#4A4A4A]'
                   }`}
                 >
                   {link.label}
                   {active && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-lumiere-purple rounded-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1A1A1A] rounded-full" />
                   )}
                 </Link>
               );
@@ -84,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Search Trigger */}
           <button
             onClick={onOpenSearch}
-            className="p-2 text-[#4A4A4A] hover:text-lumiere-purple transition-colors"
+            className="p-2 text-[#3A3A3A] hover:text-black transition-colors"
             aria-label="Search"
             title="Search formulations"
           >
@@ -94,13 +88,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Wishlist */}
           <button
             onClick={onOpenWishlist}
-            className="p-2 text-[#4A4A4A] hover:text-lumiere-purple transition-colors relative"
+            className="p-2 text-[#3A3A3A] hover:text-black transition-colors relative"
             aria-label="Wishlist"
             title="Saved Items"
           >
             <Heart className="w-5 h-5 stroke-[1.75]" />
             {wishlistIds.length > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-lumiere-purple text-white text-[10px] font-semibold flex items-center justify-center">
+              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#131124] text-white text-[10px] font-semibold flex items-center justify-center">
                 {wishlistIds.length}
               </span>
             )}
@@ -109,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Cart Bag */}
           <button
             onClick={onOpenCart}
-            className="p-2 text-[#4A4A4A] hover:text-lumiere-purple transition-colors relative"
+            className="p-2 text-[#3A3A3A] hover:text-black transition-colors relative"
             aria-label="Shopping Bag"
             title="Shopping Bag"
           >
@@ -124,7 +118,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-[#4A4A4A] hover:text-lumiere-purple md:hidden"
+            className="p-2 text-[#3A3A3A] hover:text-black md:hidden"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -134,7 +128,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-[#EFEBF7] px-4 pt-3 pb-6 space-y-3 animate-fade-in">
+        <div className="md:hidden mx-4 my-2 bg-white/95 backdrop-blur-md rounded-2xl border border-[#EFEBF7] p-4 space-y-2 shadow-xl animate-fade-in">
           {navLinks.map((link) => {
             const active = isActive(link.path);
             return (

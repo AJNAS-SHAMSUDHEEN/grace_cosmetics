@@ -12,7 +12,6 @@ interface HeroSlide {
   image: string;
   theme: {
     bgGradient: string;
-    borderColor: string;
     headingColor: string;
     subtextColor: string;
     buttonBg: string;
@@ -26,7 +25,6 @@ const HERO_SLIDES: HeroSlide[] = [
     image: '/hero_images/Screenshot_2026-11-24_101433-removebg-preview.png',
     theme: {
       bgGradient: 'linear-gradient(135deg, #FDF7F2 0%, #F7EDE5 50%, #EBD5C8 100%)',
-      borderColor: '#E8D2C2',
       headingColor: '#784435',
       subtextColor: '#685046',
       buttonBg: '#784435',
@@ -38,7 +36,6 @@ const HERO_SLIDES: HeroSlide[] = [
     image: '/hero_images/Screenshot_2026-11-24_101520-removebg-preview.png',
     theme: {
       bgGradient: 'linear-gradient(135deg, #F2F8F4 0%, #E6F3EA 50%, #D4EADC 100%)',
-      borderColor: '#C2DEC9',
       headingColor: '#245536',
       subtextColor: '#3E5E4A',
       buttonBg: '#245536',
@@ -50,7 +47,6 @@ const HERO_SLIDES: HeroSlide[] = [
     image: '/hero_images/Screenshot_2026-11-24_101552-removebg-preview.png',
     theme: {
       bgGradient: 'linear-gradient(135deg, #EEF6FA 0%, #E1EFF7 50%, #CDE4F1 100%)',
-      borderColor: '#BEDCEC',
       headingColor: '#225475',
       subtextColor: '#385C74',
       buttonBg: '#225475',
@@ -62,7 +58,6 @@ const HERO_SLIDES: HeroSlide[] = [
     image: '/hero_images/Screenshot_2026-11-24_101632-removebg-preview.png',
     theme: {
       bgGradient: 'linear-gradient(135deg, #F6F4F1 0%, #EAE7E2 50%, #DCD7D0 100%)',
-      borderColor: '#CECAC2',
       headingColor: '#444138',
       subtextColor: '#575349',
       buttonBg: '#444138',
@@ -87,17 +82,16 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
   const { theme } = currentSlide;
 
   return (
-    <section id="hero" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-14">
-      {/* Large Rounded Hero Banner with Dynamic Gradient and Border that transitions with product */}
-      <div
-        className="relative rounded-[2.5rem] overflow-hidden border shadow-sm transition-all duration-700 ease-in-out"
-        style={{
-          background: theme.bgGradient,
-          borderColor: theme.borderColor,
-        }}
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 lg:p-14 min-h-[540px]">
-          {/* Left Column: Professionally Aligned "Find Your Solution" (7 cols) */}
+    <section
+      id="hero"
+      className="relative w-full -mt-20 pt-24 sm:pt-28 pb-14 sm:pb-16 transition-all duration-700 ease-in-out overflow-hidden"
+      style={{
+        background: theme.bgGradient,
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[500px]">
+          {/* Left Column: "Find Your Solution" (7 cols) */}
           <div className="lg:col-span-7 space-y-6 z-10 flex flex-col justify-center">
             {/* Main Hero Heading (Adapts Color to Current Theme) */}
             <div className="space-y-2">
@@ -135,7 +129,7 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
           </div>
 
           {/* Right Column: ONLY THE PRODUCT IMAGE - Clean, prominent, floating, and auto-changing (5 cols) */}
-          <div className="lg:col-span-5 relative w-full h-full flex items-center justify-center min-h-[380px] lg:min-h-[500px]">
+          <div className="lg:col-span-5 relative w-full h-full flex items-center justify-center min-h-[380px] lg:min-h-[480px]">
             {/* Subtle Ambient Radial Glow Aura Matching Product Theme */}
             <div
               className="absolute w-72 h-72 sm:w-88 sm:h-88 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
