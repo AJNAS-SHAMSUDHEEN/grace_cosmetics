@@ -14,15 +14,15 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
   return (
     <section
       id="hero"
-      className="relative w-full -mt-20 pt-24 sm:pt-28 pb-14 sm:pb-16 transition-all duration-700 ease-in-out overflow-hidden"
+      className="relative w-full -mt-20 pt-16 sm:pt-20 pb-8 sm:pb-10 transition-all duration-700 ease-in-out overflow-hidden"
       style={{
         background: currentTheme.bgGradient,
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[500px]">
-          {/* Left Column: "Find Your Solution" (7 cols) */}
-          <div className="lg:col-span-7 space-y-6 z-10 flex flex-col justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[440px]">
+          {/* Left Column: "Find Your Solution" (7 cols) - Adjusted Higher */}
+          <div className="lg:col-span-7 space-y-4 sm:space-y-5 z-10 flex flex-col justify-center -mt-4 lg:-mt-8">
             {/* Main Hero Heading */}
             <div className="space-y-2">
               <h1
@@ -46,7 +46,7 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
             />
 
             {/* Catalog Action Link */}
-            <div className="pt-2">
+            <div className="pt-1">
               <button
                 onClick={onShopNow}
                 style={{ backgroundColor: currentTheme.buttonBg }}
