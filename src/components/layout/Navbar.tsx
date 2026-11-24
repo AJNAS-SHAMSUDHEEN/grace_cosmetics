@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, ShoppingBag, Heart, Menu, X, Sparkles } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
@@ -19,6 +19,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   const { wishlistIds } = useWishlist();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { label: 'Home', path: '/' },
@@ -35,7 +44,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-transparent border-none transition-all duration-300">
+    <header
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/90 backdrop-blur-md shadow-2xs border-b border-[#EFEBF7]'
+          : 'bg-transparent border-none'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Left: Brand Name & Main Links */}
         <div className="flex items-center space-x-10">

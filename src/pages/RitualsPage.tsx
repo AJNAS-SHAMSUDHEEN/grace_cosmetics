@@ -218,10 +218,10 @@ export const RitualsPage: React.FC = () => {
             return (
               <div
                 key={product.id}
-                className="group bg-white rounded-2xl border border-[#EFEBF7] p-4 flex flex-col justify-between hover:shadow-md transition-all duration-300"
+                className="group bg-white rounded-3xl border border-[#EFEBF7] p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg hover:border-lumiere-purple/30 transition-all duration-300"
               >
                 <div>
-                  <div className="relative aspect-square rounded-xl bg-[#FAF9F7] overflow-hidden mb-3">
+                  <div className="relative aspect-[4/5] rounded-2xl bg-[#FAF9F7] overflow-hidden mb-3.5">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -229,38 +229,38 @@ export const RitualsPage: React.FC = () => {
                     />
                     <button
                       onClick={() => toggleWishlist(product.id)}
-                      className={`absolute top-2.5 right-2.5 w-7 h-7 rounded-full flex items-center justify-center transition-all ${
-                        isFav ? 'bg-rose-50 text-rose-500' : 'bg-white/80 text-gray-500 hover:text-rose-500'
+                      className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                        isFav ? 'bg-rose-50 text-rose-500 shadow-sm' : 'bg-white/90 text-gray-400 hover:text-rose-500 shadow-2xs'
                       }`}
                     >
                       <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-rose-500 stroke-rose-500' : ''}`} />
                     </button>
                   </div>
-                  <span className="text-[10px] uppercase font-bold text-lumiere-purple tracking-wider block mb-1">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-lumiere-purple block mb-1">
                     {product.category}
                   </span>
                   <Link
                     to={`/product/${product.id}`}
-                    className="font-serif text-sm font-semibold text-[#1A1A1A] hover:text-lumiere-purple transition-colors line-clamp-1 block"
+                    className="font-serif text-sm sm:text-base font-semibold text-[#1A1A1A] hover:text-lumiere-purple transition-colors line-clamp-1 block leading-snug"
                   >
                     {product.name}
                   </Link>
-                  <p className="text-xs text-[#7A748E] line-clamp-2 mt-1">
+                  <p className="text-xs text-[#7A748E] line-clamp-2 mt-1 leading-relaxed">
                     {product.subTitle}
                   </p>
                 </div>
                 <div className="pt-3 mt-2 border-t border-[#F2EDFA] flex items-center justify-between">
-                  <span className="text-sm font-bold text-[#1A1A1A]">${product.price.toFixed(2)}</span>
+                  <span className="text-base sm:text-lg font-bold text-[#1A1A1A]">${product.price.toFixed(2)}</span>
                   <div className="flex items-center space-x-1.5">
                     <Link
                       to={`/product/${product.id}`}
-                      className="px-2.5 py-1 rounded-full bg-[#FAF9F7] hover:bg-[#EFEBF7] text-[#4A3578] text-[11px] font-semibold"
+                      className="px-3 py-1.5 rounded-full bg-[#FAF9F7] hover:bg-[#EFEBF7] text-[#4A3578] text-xs font-semibold"
                     >
                       View
                     </Link>
                     <button
                       onClick={() => addToCart(product, 1)}
-                      className="w-7 h-7 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white flex items-center justify-center transition-colors shadow-xs"
+                      className="w-8 h-8 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white flex items-center justify-center transition-colors shadow-xs"
                       title="Add to bag"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />

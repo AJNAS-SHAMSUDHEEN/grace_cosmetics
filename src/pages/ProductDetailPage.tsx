@@ -173,12 +173,18 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onOpenChec
             </div>
 
             {/* Product Title */}
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#1A1A1A] tracking-tight mb-2">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold text-[#1A1A1A] tracking-tight leading-tight mb-2">
               {product.name}
             </h1>
-            <p className="text-sm text-lumiere-purple font-medium mb-4">
+            <p className="text-sm sm:text-base text-lumiere-purple font-medium mb-3">
               {product.subTitle}
             </p>
+
+            {/* In-Stock & Dispatch Status */}
+            <div className="flex items-center space-x-2 text-xs text-emerald-700 font-semibold mb-4">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>In Stock • Complimentary Express Delivery Available</span>
+            </div>
 
             {/* Price & Volume */}
             <div className="flex items-baseline space-x-3 pb-5 mb-5 border-b border-[#F2EDFA]">
@@ -430,35 +436,46 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onOpenChec
             {relatedProducts.map((rel) => (
               <div
                 key={rel.id}
-                className="group bg-white rounded-2xl border border-[#EFEBF7] p-4 flex flex-col justify-between hover:shadow-md transition-all duration-300"
+                className="group bg-white rounded-3xl border border-[#EFEBF7] p-4 flex flex-col justify-between hover:shadow-lg hover:border-lumiere-purple/30 transition-all duration-300"
               >
                 <div>
-                  <div className="aspect-square rounded-xl bg-[#FAF9F7] overflow-hidden mb-3">
+                  <div className="aspect-[4/5] rounded-2xl bg-[#FAF9F7] overflow-hidden mb-3.5">
                     <img
                       src={rel.image}
                       alt={rel.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <span className="text-[10px] uppercase font-bold text-lumiere-purple tracking-wider block mb-1">
+                  <span className="text-[10px] uppercase font-bold text-lumiere-purple tracking-widest block mb-1">
                     {rel.category}
                   </span>
                   <Link
                     to={`/product/${rel.id}`}
-                    className="font-serif text-sm font-semibold text-[#1A1A1A] hover:text-lumiere-purple transition-colors line-clamp-1 block"
+                    className="font-serif text-sm font-semibold text-[#1A1A1A] hover:text-lumiere-purple transition-colors line-clamp-1 block leading-snug"
                   >
                     {rel.name}
                   </Link>
+                  <p className="text-xs text-[#7A748E] line-clamp-2 mt-1">
+                    {rel.subTitle}
+                  </p>
                 </div>
                 <div className="pt-3 mt-2 border-t border-[#F2EDFA] flex items-center justify-between">
-                  <span className="text-sm font-bold text-[#1A1A1A]">${rel.price.toFixed(2)}</span>
-                  <button
-                    onClick={() => addToCart(rel, 1)}
-                    className="w-7 h-7 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white flex items-center justify-center transition-colors shadow-xs"
-                    title="Add to bag"
-                  >
-                    <ShoppingBag className="w-3.5 h-3.5" />
-                  </button>
+                  <span className="text-base font-bold text-[#1A1A1A]">${rel.price.toFixed(2)}</span>
+                  <div className="flex items-center space-x-1.5">
+                    <Link
+                      to={`/product/${rel.id}`}
+                      className="px-2.5 py-1 rounded-full bg-[#FAF9F7] hover:bg-[#EFEBF7] text-[#4A3578] text-[11px] font-semibold"
+                    >
+                      View
+                    </Link>
+                    <button
+                      onClick={() => addToCart(rel, 1)}
+                      className="w-7 h-7 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white flex items-center justify-center transition-colors shadow-xs"
+                      title="Add to bag"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

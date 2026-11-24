@@ -149,10 +149,10 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
           return (
             <div
               key={product.id}
-              className="group bg-white rounded-2xl overflow-hidden border border-[#EDE7F6] hover:border-[#D8CEF0] hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+              className="group bg-white rounded-3xl overflow-hidden border border-[#EDE7F6] hover:border-[#D8CEF0] hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
             >
               {/* Image Container */}
-              <div className="relative h-64 w-full bg-[#FAF9F7] p-4 flex items-center justify-center overflow-hidden">
+              <div className="relative aspect-[4/5] w-full bg-[#FAF9F7] p-3 flex items-center justify-center overflow-hidden">
                 {product.tag && (
                   <span className="absolute top-3 left-3 z-10 px-2.5 py-0.5 rounded-full bg-white text-[9px] font-bold uppercase tracking-wider text-lumiere-purple border border-[#E5DDF5] shadow-xs">
                     {product.tag}
@@ -163,19 +163,19 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
                   onClick={() => toggleWishlist(product.id)}
                   className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all ${
                     isFavorited
-                      ? 'bg-lumiere-purple text-white'
-                      : 'bg-white/80 text-gray-500 hover:text-lumiere-purple border border-gray-100 shadow-xs'
+                      ? 'bg-rose-50 text-rose-500 shadow-sm'
+                      : 'bg-white/80 text-gray-400 hover:text-rose-500 hover:bg-white shadow-2xs'
                   }`}
                   aria-label="Wishlist"
                 >
-                  <Heart className={`w-3.5 h-3.5 ${isFavorited ? 'fill-white' : ''}`} />
+                  <Heart className={`w-3.5 h-3.5 ${isFavorited ? 'fill-rose-500 stroke-rose-500' : ''}`} />
                 </button>
 
                 <img
                   src={product.image}
                   alt={product.name}
                   onClick={() => onOpenDetail(product.id)}
-                  className="w-full h-full object-cover rounded-xl cursor-pointer transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover rounded-2xl cursor-pointer transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
               </div>

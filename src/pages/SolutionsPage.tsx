@@ -303,10 +303,10 @@ export const SolutionsPage: React.FC = () => {
               return (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-2xl border border-[#EFEBF7] p-4 flex flex-col justify-between hover:shadow-md transition-all duration-300"
+                  className="group bg-white rounded-3xl border border-[#EFEBF7] p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg hover:border-lumiere-purple/30 transition-all duration-300"
                 >
                   <div>
-                    <div className="relative aspect-square rounded-xl bg-[#FAF9F7] overflow-hidden mb-3">
+                    <div className="relative aspect-[4/5] rounded-2xl bg-[#FAF9F7] overflow-hidden mb-3.5">
                       <img
                         src={product.image}
                         alt={product.name}
@@ -314,38 +314,38 @@ export const SolutionsPage: React.FC = () => {
                       />
                       <button
                         onClick={() => toggleWishlist(product.id)}
-                        className={`absolute top-2.5 right-2.5 w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                        className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                           isFav
-                            ? 'bg-rose-50 text-rose-500 shadow-xs'
-                            : 'bg-white/80 text-gray-500 hover:text-rose-500'
+                            ? 'bg-rose-50 text-rose-500 shadow-sm'
+                            : 'bg-white/90 text-gray-400 hover:text-rose-500 shadow-2xs'
                         }`}
                       >
                         <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-rose-500 stroke-rose-500' : ''}`} />
                       </button>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-[#8A859E] mb-1">
-                      <span className="uppercase font-semibold text-lumiere-purple">{product.category}</span>
+                    <div className="flex items-center justify-between text-[11px] text-[#8A859E] mb-1.5">
+                      <span className="uppercase font-semibold tracking-widest text-lumiere-purple">{product.category}</span>
                       <div className="flex items-center space-x-1">
-                        <Star className="w-3 h-3 fill-amber-400 stroke-amber-400" />
+                        <Star className="w-3.5 h-3.5 fill-amber-400 stroke-amber-400" />
                         <span className="font-bold text-[#1A1A1A]">{product.rating}</span>
                       </div>
                     </div>
 
                     <Link
                       to={`/product/${product.id}`}
-                      className="font-serif text-sm font-semibold text-[#1A1A1A] hover:text-lumiere-purple transition-colors line-clamp-1 block"
+                      className="font-serif text-sm sm:text-base font-semibold text-[#1A1A1A] hover:text-lumiere-purple transition-colors line-clamp-1 block leading-snug"
                     >
                       {product.name}
                     </Link>
-                    <p className="text-xs text-[#7A748E] line-clamp-2 mt-1">
+                    <p className="text-xs text-[#7A748E] line-clamp-2 mt-1 leading-relaxed">
                       {product.subTitle}
                     </p>
 
                     {/* Active compound tag */}
                     {product.activeCompounds.length > 0 && (
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        <span className="text-[10px] bg-[#FAF9F7] border border-[#EAE2F8] px-2 py-0.5 rounded-full text-[#4A3578] font-medium">
+                      <div className="mt-2.5 flex flex-wrap gap-1">
+                        <span className="text-[10px] bg-[#FAF9F7] border border-[#EAE2F8] px-2.5 py-0.5 rounded-full text-[#4A3578] font-semibold">
                           {product.activeCompounds[0].name} ({product.activeCompounds[0].percentage})
                         </span>
                       </div>
@@ -353,17 +353,17 @@ export const SolutionsPage: React.FC = () => {
                   </div>
 
                   <div className="pt-3 mt-3 border-t border-[#F2EDFA] flex items-center justify-between">
-                    <span className="text-sm font-bold text-[#1A1A1A]">${product.price.toFixed(2)}</span>
+                    <span className="text-base sm:text-lg font-bold text-[#1A1A1A]">${product.price.toFixed(2)}</span>
                     <div className="flex items-center space-x-1.5">
                       <Link
                         to={`/product/${product.id}`}
-                        className="px-2.5 py-1 rounded-full bg-[#FAF9F7] hover:bg-[#EFEBF7] text-[#4A3578] text-[11px] font-semibold"
+                        className="px-3 py-1.5 rounded-full bg-[#FAF9F7] hover:bg-[#EFEBF7] text-[#4A3578] text-xs font-semibold"
                       >
                         Details
                       </Link>
                       <button
                         onClick={() => addToCart(product, 1)}
-                        className="w-7 h-7 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white flex items-center justify-center transition-colors shadow-xs"
+                        className="w-8 h-8 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white flex items-center justify-center transition-colors shadow-xs"
                         title="Add to bag"
                       >
                         <ShoppingBag className="w-3.5 h-3.5" />
