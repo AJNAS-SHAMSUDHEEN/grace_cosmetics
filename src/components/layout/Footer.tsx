@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowRight, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Check, ArrowRight, ShieldCheck, Heart, Sparkles } from 'lucide-react';
 
-interface FooterProps {
-  onNavigateSection: (sectionId: string) => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
+export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -24,9 +21,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#F0EBF7]">
           {/* Brand & Mission */}
           <div className="lg:col-span-2 space-y-4">
-            <span className="font-serif text-2xl font-bold text-[#1A1A1A] tracking-tight block">
-              Lumière Beauty
-            </span>
+            <Link to="/" className="inline-block">
+              <span className="font-serif text-2xl font-bold text-[#1A1A1A] tracking-tight block hover:text-lumiere-purple transition-colors">
+                Lumière Beauty
+              </span>
+            </Link>
             <p className="text-sm text-[#666666] leading-relaxed max-w-sm">
               Science-backed formulations curated for everyday radiance, healthy barrier hydration, and glowing skin.
             </p>
@@ -64,33 +63,38 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
           {/* Quick Links */}
           <div className="space-y-3">
             <h4 className="font-serif text-sm font-semibold text-[#1A1A1A] uppercase tracking-wider">
-              Explore
+              Explore Pages
             </h4>
             <ul className="space-y-2 text-xs text-[#666666]">
               <li>
-                <button onClick={() => onNavigateSection('hero')} className="hover:text-lumiere-purple">
+                <Link to="/" className="hover:text-lumiere-purple transition-colors">
                   Home
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('products')} className="hover:text-lumiere-purple">
+                <Link to="/catalog" className="hover:text-lumiere-purple transition-colors">
                   Catalog
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('categories')} className="hover:text-lumiere-purple">
+                <Link to="/categories" className="hover:text-lumiere-purple transition-colors">
                   Beauty Categories
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('solutions')} className="hover:text-lumiere-purple">
+                <Link to="/solutions" className="hover:text-lumiere-purple transition-colors">
                   Targeted Solutions
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('rituals')} className="hover:text-lumiere-purple">
+                <Link to="/rituals" className="hover:text-lumiere-purple transition-colors">
                   Skincare Rituals
-                </button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-lumiere-purple transition-colors">
+                  Skin Concierge & Contact
+                </Link>
               </li>
             </ul>
           </div>
@@ -102,29 +106,34 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
             </h4>
             <ul className="space-y-2 text-xs text-[#666666]">
               <li>
-                <button onClick={() => onNavigateSection('products')} className="hover:text-lumiere-purple">
-                  Cleansers & Toners
-                </button>
+                <Link to="/categories?cat=skincare" className="hover:text-lumiere-purple transition-colors">
+                  Skincare
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('products')} className="hover:text-lumiere-purple">
-                  Glow Serums
-                </button>
+                <Link to="/categories?cat=cosmetics" className="hover:text-lumiere-purple transition-colors">
+                  Cosmetics
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('products')} className="hover:text-lumiere-purple">
-                  Face Moisturizers
-                </button>
+                <Link to="/categories?cat=eye" className="hover:text-lumiere-purple transition-colors">
+                  Eye Care
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('products')} className="hover:text-lumiere-purple">
-                  Mineral Sunscreen
-                </button>
+                <Link to="/categories?cat=hair" className="hover:text-lumiere-purple transition-colors">
+                  Hair & Scalp
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('products')} className="hover:text-lumiere-purple">
-                  Night Creams
-                </button>
+                <Link to="/categories?cat=machines" className="hover:text-lumiere-purple transition-colors">
+                  Machines & Devices
+                </Link>
+              </li>
+              <li>
+                <Link to="/catalog?category=Triskin" className="hover:text-lumiere-purple transition-colors">
+                  Triskin Cellular Line
+                </Link>
               </li>
             </ul>
           </div>
@@ -136,43 +145,39 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
             </h4>
             <ul className="space-y-2 text-xs text-[#666666]">
               <li>
-                <a href="#shipping" className="hover:text-lumiere-purple">
-                  Shipping & Returns
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="hover:text-lumiere-purple">
-                  Frequently Asked Questions
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-lumiere-purple">
+                <Link to="/contact" className="hover:text-lumiere-purple transition-colors">
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#privacy" className="hover:text-lumiere-purple">
-                  Privacy Policy
-                </a>
+                <Link to="/contact" className="hover:text-lumiere-purple transition-colors">
+                  Shipping & Returns
+                </Link>
               </li>
               <li>
-                <a href="#terms" className="hover:text-lumiere-purple">
-                  Terms of Service
-                </a>
+                <Link to="/contact" className="hover:text-lumiere-purple transition-colors">
+                  Clinical Consultation
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-lumiere-purple transition-colors">
+                  Frequently Asked Questions
+                </Link>
+              </li>
+              <li>
+                <span className="text-[#8A859E]">Paris • Seoul • New York</span>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#8E8E93] gap-4">
-          <p>© 2026 Lumière Beauty. All rights reserved.</p>
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#8A859E] gap-4">
+          <p>© 2026 Lumière Beauty. All rights reserved. Zero human models — pure formulation science.</p>
           <div className="flex items-center space-x-6">
-            <span>Cruelty-Free</span>
-            <span>•</span>
-            <span>Dermatologist Approved</span>
-            <span>•</span>
-            <span>Fast Worldwide Delivery</span>
+            <Link to="/contact" className="hover:text-lumiere-purple transition-colors">Privacy Policy</Link>
+            <Link to="/contact" className="hover:text-lumiere-purple transition-colors">Terms of Service</Link>
+            <Link to="/contact" className="hover:text-lumiere-purple transition-colors">Clinical Standards</Link>
           </div>
         </div>
       </div>

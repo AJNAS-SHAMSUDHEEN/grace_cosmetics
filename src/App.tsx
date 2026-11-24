@@ -1,63 +1,46 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { CartProvider, useCart } from './context/CartContext';
 import { WishlistProvider, useWishlist } from './context/WishlistContext';
+import { ScrollToTop } from './components/common/ScrollToTop';
 import { Navbar } from './components/layout/Navbar';
-import { LumiereHero } from './components/hero/LumiereHero';
-import { BeautyCategories } from './components/categories/BeautyCategories';
-import { TargetedSolutions } from './components/solutions/TargetedSolutions';
-import { SkinConcerns } from './components/concerns/SkinConcerns';
-import { SkincareRituals } from './components/rituals/SkincareRituals';
-import { LumiereProducts } from './components/products/LumiereProducts';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/layout/CartDrawer';
 import { WishlistDrawer } from './components/layout/WishlistDrawer';
-import { ProductDetailModal } from './components/products/ProductDetailModal';
 import { GlobalSearchModal } from './components/common/GlobalSearchModal';
 import { CheckoutModal } from './components/common/CheckoutModal';
+import { ProductDetailModal } from './components/products/ProductDetailModal';
+
+// Dedicated Pages
+import { HomePage } from './pages/HomePage';
+import { CatalogPage } from './pages/CatalogPage';
+import { ProductDetailPage } from './pages/ProductDetailPage';
+import { CategoriesPage } from './pages/CategoriesPage';
+import { SolutionsPage } from './pages/SolutionsPage';
+import { RitualsPage } from './pages/RitualsPage';
+import { ContactPage } from './pages/ContactPage';
+
 import { Check, X } from 'lucide-react';
 
-const MainAppContent: React.FC = () => {
+const AppRoutes: React.FC = () => {
+  const navigate = useNavigate();
   const { isCartOpen, setIsCartOpen, notificationMessage, dismissNotification } = useCart();
   const { isWishlistOpen, setIsWishlistOpen } = useWishlist();
 
-  const [activeDetailProductId, setActiveDetailProductId] = useState<string | null>(null);
+  const [activeQuickDetailProductId, setActiveQuickDetailProductId] = useState<string | null>(null);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedConcern, setSelectedConcern] = useState<string | null>(null);
-
-  const scrollToSection = (sectionId: string) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleSelectCategory = (categoryName: string) => {
-    setSelectedCategory(categoryName);
-    setSelectedConcern(null);
-    scrollToSection('products');
-  };
-
-  const handleSelectConcern = (concernName: string) => {
-    setSelectedConcern(concernName ? concernName : null);
-    scrollToSection('products');
-  };
-
-  const handleSelectRitual = (ritualCategory: string) => {
-    setSelectedCategory(ritualCategory);
-    setSelectedConcern(null);
-    scrollToSection('products');
-  };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F7] text-[#1A1A1A] font-sans selection:bg-[#D8CEF0] selection:text-[#3B2568]">
-      {/* 1. Navbar */}
+    <div className="min-h-screen bg-[#FAF9F7] text-[#1A1A1A] font-sans selection:bg-[#D8CEF0] selection:text-[#3B2568] flex flex-col justify-between">
+      {/* Scroll to top on every route transition */}
+      <ScrollToTop />
+
+      {/* Main Navbar */}
       <Navbar
         onOpenSearch={() => setIsSearchModalOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenCart={() => setIsCartOpen(true)}
-        onNavigateSection={scrollToSection}
       />
 
       {/* Floating Notification Toast */}
@@ -73,60 +56,70 @@ const MainAppContent: React.FC = () => {
         </div>
       )}
 
-      {/* 2. Hero Section: "GLOW WITH HEALTHY SKIN" + Modern Chat "Find Your Solution" + 3D Pastel Bottles */}
-      <LumiereHero
-        onShopNow={() => scrollToSection('products')}
-        onOpenDetail={(id) => setActiveDetailProductId(id)}
-      />
+      {/* Dedicated Page Router */}
+      <main className="flex-1">
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage onOpenDetailModal={(id) => navigate(`/product/${id}`)} />}
+          />
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route
+            path="/product/:id"
+            element={<ProductDetailPage onOpenCheckoutModal={() => setIsCheckoutModalOpen(true)} />}
+          />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/solutions" element={<SolutionsPage />} />
+          <Route path="/rituals" element={<RitualsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
 
-      {/* 3. Section: "Explore Beauty Categories" (Cosmetics, Skincare, Eye, Hair, Machines) */}
-      <BeautyCategories onSelectCategory={handleSelectCategory} />
+      {/* Main Footer */}
+      <Footer />
 
-      {/* 4. Section: "Targeted Solutions" (Influencers' Favourites, Trusted Care, Korean Glow) */}
-      <TargetedSolutions onShopCollection={handleSelectCategory} />
-
-      {/* 5. Section: "Find the Right Care for Your Skin" (Acne, Pigmentation, Dullness, Tan, Dryness, Wrinkles) */}
-      <SkinConcerns
-        selectedConcern={selectedConcern}
-        onSelectConcern={handleSelectConcern}
-      />
-
-      {/* 6. Section: "Skincare Rituals" (Cleanser, Sunscreen, Serum, Toner, Face Moisturizer, Night Cream) */}
-      <SkincareRituals onSelectStep={handleSelectRitual} />
-
-      {/* 7. Section: "Products" (Catalog with functional search, categories, and quick add) */}
-      <LumiereProducts
-        onOpenDetail={(id) => setActiveDetailProductId(id)}
-        selectedCategoryFromParent={selectedCategory}
-        selectedConcernFromParent={selectedConcern}
-      />
-
-      {/* 8. Footer */}
-      <Footer onNavigateSection={scrollToSection} />
-
-      {/* Drawers & Modals */}
+      {/* Global Interactive Drawers & Overlays */}
       <CartDrawer
         onOpenCheckoutModal={() => setIsCheckoutModalOpen(true)}
-        onExploreProducts={() => scrollToSection('products')}
+        onExploreProducts={() => {
+          setIsCartOpen(false);
+          navigate('/catalog');
+        }}
       />
 
       <WishlistDrawer
-        onOpenProductDetail={(id) => setActiveDetailProductId(id)}
-        onExploreProducts={() => scrollToSection('products')}
+        onOpenProductDetail={(id) => {
+          setIsWishlistOpen(false);
+          navigate(`/product/${id}`);
+        }}
+        onExploreProducts={() => {
+          setIsWishlistOpen(false);
+          navigate('/catalog');
+        }}
       />
 
+      {/* Quick View Modal if triggered */}
       <ProductDetailModal
-        productId={activeDetailProductId}
-        onClose={() => setActiveDetailProductId(null)}
-        onOpenAnotherProduct={(id) => setActiveDetailProductId(id)}
+        productId={activeQuickDetailProductId}
+        onClose={() => setActiveQuickDetailProductId(null)}
+        onOpenAnotherProduct={(id) => {
+          setActiveQuickDetailProductId(null);
+          navigate(`/product/${id}`);
+        }}
       />
 
+      {/* Global Search Modal */}
       <GlobalSearchModal
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
-        onSelectProduct={(id) => setActiveDetailProductId(id)}
+        onSelectProduct={(id) => {
+          setIsSearchModalOpen(false);
+          navigate(`/product/${id}`);
+        }}
       />
 
+      {/* Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutModalOpen}
         onClose={() => setIsCheckoutModalOpen(false)}
@@ -137,11 +130,13 @@ const MainAppContent: React.FC = () => {
 
 export function App() {
   return (
-    <CartProvider>
-      <WishlistProvider>
-        <MainAppContent />
-      </WishlistProvider>
-    </CartProvider>
+    <BrowserRouter>
+      <CartProvider>
+        <WishlistProvider>
+          <AppRoutes />
+        </WishlistProvider>
+      </CartProvider>
+    </BrowserRouter>
   );
 }
 
