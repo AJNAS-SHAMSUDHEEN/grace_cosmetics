@@ -56,22 +56,22 @@ const AppRoutes: React.FC = () => {
         </div>
       )}
 
-      {/* Dedicated Page Router */}
+      {/* Dedicated Page Router with Breathing Room for Floating Glassy Navbar */}
       <main className="flex-1">
         <Routes>
           <Route
             path="/"
             element={<HomePage onOpenDetailModal={(id) => navigate(`/product/${id}`)} />}
           />
-          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/catalog" element={<div className="pt-20 sm:pt-24"><CatalogPage /></div>} />
           <Route
             path="/product/:id"
-            element={<ProductDetailPage onOpenCheckoutModal={() => setIsCheckoutModalOpen(true)} />}
+            element={<div className="pt-20 sm:pt-24"><ProductDetailPage onOpenCheckoutModal={() => setIsCheckoutModalOpen(true)} /></div>}
           />
-          <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/solutions" element={<SolutionsPage />} />
-          <Route path="/rituals" element={<RitualsPage />} />
-          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/categories" element={<div className="pt-20 sm:pt-24"><CategoriesPage /></div>} />
+          <Route path="/solutions" element={<div className="pt-20 sm:pt-24"><SolutionsPage /></div>} />
+          <Route path="/rituals" element={<div className="pt-20 sm:pt-24"><RitualsPage /></div>} />
+          <Route path="/contact" element={<div className="pt-20 sm:pt-24"><ContactPage /></div>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

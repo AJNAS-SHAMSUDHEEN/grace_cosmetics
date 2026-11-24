@@ -14,7 +14,7 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
   return (
     <section
       id="hero"
-      className="relative w-full -mt-20 pt-16 sm:pt-20 pb-8 sm:pb-10 transition-all duration-700 ease-in-out overflow-hidden"
+      className="relative w-full pt-24 sm:pt-28 pb-8 sm:pb-10 transition-all duration-700 ease-in-out overflow-hidden"
       style={{
         background: currentTheme.bgGradient,
       }}
@@ -22,7 +22,7 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[440px]">
           {/* Left Column: "Find Your Solution" (7 cols) - Adjusted Higher */}
-          <div className="lg:col-span-7 space-y-4 sm:space-y-5 z-10 flex flex-col justify-center -mt-4 lg:-mt-8">
+          <div className="lg:col-span-7 space-y-4 sm:space-y-5 z-10 flex flex-col justify-center -mt-2 lg:-mt-4">
             {/* Main Hero Heading */}
             <div className="space-y-2">
               <h1
