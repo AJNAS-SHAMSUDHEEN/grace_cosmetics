@@ -69,3 +69,18 @@
   animation-play-state: paused;
 }
 
+/* Floating Bottle Animation */
+@keyframes float-bottle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.8deg);
+  }
+}
+
+.animate-float-bottle {
+  animation: float-bottle 5s ease-in-out infinite;
+}
+
+

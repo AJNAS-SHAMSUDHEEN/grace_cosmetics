@@ -7,9 +7,13 @@ import { useCart } from '../../context/CartContext';
 
 interface HealthSolutionChatProps {
   onOpenDetail: (productId: string) => void;
+  accentColor?: string;
 }
 
-export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({ onOpenDetail }) => {
+export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({
+  onOpenDetail,
+  accentColor = '#5B4296',
+}) => {
   const { addToCart } = useCart();
   const [searchInput, setSearchInput] = useState('');
   const [activeCondition, setActiveCondition] = useState<HealthCondition | null>(null);
@@ -143,7 +147,8 @@ export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({ onOpenDe
 
           <button
             onClick={() => handleSelectCondition(searchInput)}
-            className="mr-1.5 px-5 py-2.5 rounded-full bg-[#5B4296] hover:bg-[#4A3578] text-white text-xs font-semibold uppercase tracking-wider transition-colors shadow-xs"
+            style={{ backgroundColor: accentColor }}
+            className="mr-1.5 px-5 py-2.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-xs hover:opacity-90"
           >
             Search
           </button>
