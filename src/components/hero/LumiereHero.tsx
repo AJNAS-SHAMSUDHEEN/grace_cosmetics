@@ -23,14 +23,6 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[500px]">
           {/* Left Column: "Find Your Solution" (7 cols) */}
           <div className="lg:col-span-7 space-y-6 z-10 flex flex-col justify-center">
-            {/* Store Tag */}
-            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-xs border border-[#E8BEC5] shadow-2xs w-fit">
-              <Sparkles className="w-3.5 h-3.5 text-[#D4A359]" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-[#701A33]">
-                Grace Beauty Store • 100% Original Products
-              </span>
-            </div>
-
             {/* Main Hero Heading */}
             <div className="space-y-2">
               <h1
