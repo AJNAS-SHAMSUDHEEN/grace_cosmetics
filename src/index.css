@@ -4,8 +4,8 @@
 
 @layer base {
   body {
-    background-color: #FAF9F7;
-    color: #1A1A1A;
+    background-color: #FDFBFA;
+    color: #1E0A12;
     font-family: 'Plus Jakarta Sans', sans-serif;
     overflow-x: hidden;
   }
@@ -20,33 +20,33 @@
   }
 }
 
-/* Custom Scrollbar for Lumiere */
+/* Custom Scrollbar for Grace Beauty Store */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #FAF9F7;
+  background: #FDFBFA;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D8CEF0;
+  background: #E8BEC5;
   border-radius: 9999px;
-  border: 1px solid #FAF9F7;
+  border: 1px solid #FDFBFA;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #BFAFE3;
+  background: #D48D9E;
 }
 
 /* Smooth Soft Shadows */
 .soft-card-shadow {
-  box-shadow: 0 10px 30px -10px rgba(91, 66, 150, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 10px 30px -10px rgba(112, 26, 51, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
 }
 
 .hero-gradient {
-  background: linear-gradient(135deg, #F3EEFA 0%, #E9E1F7 50%, #DDD2F2 100%);
+  background: linear-gradient(135deg, #FDF7F8 0%, #FCEEF1 50%, #F8E9EE 100%);
 }
 
 /* Auto Side Scrolling Marquee */
@@ -82,5 +82,3 @@
 .animate-float-bottle {
   animation: float-bottle 5s ease-in-out infinite;
 }
-
-

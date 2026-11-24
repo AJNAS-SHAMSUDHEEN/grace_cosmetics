@@ -18,21 +18,21 @@ export const SkincareRituals: React.FC<SkincareRitualsProps> = ({ onSelectStep }
       stepNumber: '02',
       title: 'SUNSCREEN',
       category: 'Sunscreen',
-      image: 'https://images.unsplash.com/photo-1567928815104-b7980ee5032e?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80',
     },
     {
       id: 'serum',
       stepNumber: '03',
       title: 'SERUM',
       category: 'Serums',
-      image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80',
+      image: '/products/abib-glutathiosome-dark-spot-serum.jpg',
     },
     {
       id: 'toner',
       stepNumber: '04',
-      title: 'TONER',
+      title: 'TONER / PAD',
       category: 'Skincare',
-      image: 'https://images.unsplash.com/photo-1608248597359-00f722955f19?auto=format&fit=crop&w=600&q=80',
+      image: '/products/abib-glutathiosome-dark-spot-pad.jpg',
     },
     {
       id: 'moisturizer',
@@ -44,9 +44,9 @@ export const SkincareRituals: React.FC<SkincareRitualsProps> = ({ onSelectStep }
     {
       id: 'nightcream',
       stepNumber: '06',
-      title: 'NIGHT CREAM',
-      category: 'Face Masks',
-      image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80',
+      title: 'LIP & NIGHT CARE',
+      category: 'Beauty Essentials',
+      image: 'https://images.unsplash.com/photo-1512290900672-1f4175655557?auto=format&fit=crop&w=600&q=80',
     },
   ];
 
@@ -54,11 +54,11 @@ export const SkincareRituals: React.FC<SkincareRitualsProps> = ({ onSelectStep }
     <section id="rituals" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="space-y-1.5 mb-8">
-        <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1A1A1A] tracking-tight">
+        <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1E0A12] tracking-tight">
           Skincare Rituals
         </h2>
-        <p className="text-sm text-[#666666] font-sans">
-          Elevate your daily regimen with high-performance transformative formulas.
+        <p className="text-sm text-[#7A646E] font-sans">
+          Elevate your daily regimen with authentic K-Beauty & dermatological steps.
         </p>
       </div>
 
@@ -68,11 +68,11 @@ export const SkincareRituals: React.FC<SkincareRitualsProps> = ({ onSelectStep }
           <div
             key={r.id}
             onClick={() => onSelectStep(r.category)}
-            className="group rounded-2xl overflow-hidden bg-[#F3EEFA] border border-[#E4D9F5] p-3 text-center cursor-pointer hover:border-lumiere-purple hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+            className="group rounded-2xl overflow-hidden bg-[#FDF7F8] border border-[#EED9DF] p-3 text-center cursor-pointer hover:border-[#701A33] hover:shadow-md transition-all duration-300 flex flex-col justify-between"
           >
             {/* Top Pill Step Label */}
             <div className="mb-2">
-              <span className="inline-block px-3 py-1 rounded-full bg-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#5B4296] border border-[#E2D6F5] shadow-xs">
+              <span className="inline-block px-3 py-1 rounded-full bg-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#701A33] border border-[#E8BEC5] shadow-xs">
                 {r.title}
               </span>
             </div>
@@ -91,4 +91,3 @@ export const SkincareRituals: React.FC<SkincareRitualsProps> = ({ onSelectStep }
     </section>
   );
 };
-

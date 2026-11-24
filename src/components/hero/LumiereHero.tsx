@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HealthSolutionChat } from './HealthSolutionChat';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface LumiereHeroProps {
   onShopNow: () => void;
@@ -24,10 +24,10 @@ const HERO_SLIDES: HeroSlide[] = [
     id: 'slide-1',
     image: '/hero_images/Screenshot_2026-11-24_101433-removebg-preview.png',
     theme: {
-      bgGradient: 'linear-gradient(135deg, #FDF7F2 0%, #F7EDE5 50%, #EBD5C8 100%)',
-      headingColor: '#784435',
-      subtextColor: '#685046',
-      buttonBg: '#784435',
+      bgGradient: 'linear-gradient(135deg, #FDF7F2 0%, #F9ECE0 50%, #F4DDC8 100%)',
+      headingColor: '#701A33',
+      subtextColor: '#684539',
+      buttonBg: '#701A33',
       glowColor: 'rgba(235, 180, 155, 0.45)',
     },
   },
@@ -36,9 +36,9 @@ const HERO_SLIDES: HeroSlide[] = [
     image: '/hero_images/Screenshot_2026-11-24_101520-removebg-preview.png',
     theme: {
       bgGradient: 'linear-gradient(135deg, #F2F8F4 0%, #E6F3EA 50%, #D4EADC 100%)',
-      headingColor: '#245536',
-      subtextColor: '#3E5E4A',
-      buttonBg: '#245536',
+      headingColor: '#1F472B',
+      subtextColor: '#3A5C46',
+      buttonBg: '#1F472B',
       glowColor: 'rgba(132, 204, 155, 0.45)',
     },
   },
@@ -46,22 +46,22 @@ const HERO_SLIDES: HeroSlide[] = [
     id: 'slide-3',
     image: '/hero_images/Screenshot_2026-11-24_101552-removebg-preview.png',
     theme: {
-      bgGradient: 'linear-gradient(135deg, #EEF6FA 0%, #E1EFF7 50%, #CDE4F1 100%)',
-      headingColor: '#225475',
-      subtextColor: '#385C74',
-      buttonBg: '#225475',
-      glowColor: 'rgba(142, 199, 232, 0.45)',
+      bgGradient: 'linear-gradient(135deg, #FDF7F8 0%, #FCEEF1 50%, #F8E2E8 100%)',
+      headingColor: '#701A33',
+      subtextColor: '#6B4553',
+      buttonBg: '#701A33',
+      glowColor: 'rgba(232, 190, 197, 0.5)',
     },
   },
   {
     id: 'slide-4',
     image: '/hero_images/Screenshot_2026-11-24_101632-removebg-preview.png',
     theme: {
-      bgGradient: 'linear-gradient(135deg, #F6F4F1 0%, #EAE7E2 50%, #DCD7D0 100%)',
-      headingColor: '#444138',
-      subtextColor: '#575349',
-      buttonBg: '#444138',
-      glowColor: 'rgba(195, 190, 178, 0.45)',
+      bgGradient: 'linear-gradient(135deg, #FAF8F5 0%, #F2EEE7 50%, #E5DFD5 100%)',
+      headingColor: '#520B1E',
+      subtextColor: '#57463F',
+      buttonBg: '#520B1E',
+      glowColor: 'rgba(212, 163, 89, 0.35)',
     },
   },
 ];
@@ -93,7 +93,15 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[500px]">
           {/* Left Column: "Find Your Solution" (7 cols) */}
           <div className="lg:col-span-7 space-y-6 z-10 flex flex-col justify-center">
-            {/* Main Hero Heading (Adapts Color to Current Theme) */}
+            {/* Store Tag */}
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-xs border border-[#E8BEC5] shadow-2xs w-fit">
+              <Sparkles className="w-3.5 h-3.5 text-[#D4A359]" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#701A33]">
+                Grace Beauty Store • 100% Original Products
+              </span>
+            </div>
+
+            {/* Main Hero Heading */}
             <div className="space-y-2">
               <h1
                 className="font-serif text-4xl sm:text-5xl lg:text-[54px] font-bold leading-[1.08] tracking-tight transition-colors duration-700 ease-in-out"
@@ -105,7 +113,7 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
                 className="text-sm sm:text-base max-w-xl leading-relaxed transition-colors duration-700 ease-in-out"
                 style={{ color: theme.subtextColor }}
               >
-                Enter any disease, health condition, symptom, or skin concern to match science-backed clinical formulations tailored for you.
+                Enter any skin concern, symptom, or condition to match 100% original, science-backed K-Beauty and dermatological formulations tailored for you.
               </p>
             </div>
 
@@ -122,13 +130,13 @@ export const LumiereHero: React.FC<LumiereHeroProps> = ({ onShopNow, onOpenDetai
                 style={{ backgroundColor: theme.buttonBg }}
                 className="px-6 py-3 rounded-full text-white font-sans text-xs uppercase tracking-widest font-semibold transition-all duration-500 shadow-md hover:shadow-lg hover:opacity-90 flex items-center space-x-2 group"
               >
-                <span>EXPLORE ALL FORMULATIONS</span>
+                <span>EXPLORE ALL ORIGINAL PRODUCTS</span>
                 <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
 
-          {/* Right Column: ONLY THE PRODUCT IMAGE - Clean, prominent, floating, and auto-changing (5 cols) */}
+          {/* Right Column: ONLY THE PRODUCT IMAGE */}
           <div className="lg:col-span-5 relative w-full h-full flex items-center justify-center min-h-[380px] lg:min-h-[480px]">
             {/* Subtle Ambient Radial Glow Aura Matching Product Theme */}
             <div

@@ -32,7 +32,7 @@ const AppRoutes: React.FC = () => {
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#FAF9F7] text-[#1A1A1A] font-sans selection:bg-[#D8CEF0] selection:text-[#3B2568] flex flex-col justify-between">
+    <div className="min-h-screen bg-[#FDFBFA] text-[#1E0A12] font-sans selection:bg-[#FCEEF1] selection:text-[#701A33] flex flex-col justify-between">
       {/* Scroll to top on every route transition */}
       <ScrollToTop />
 
@@ -45,8 +45,8 @@ const AppRoutes: React.FC = () => {
 
       {/* Floating Notification Toast */}
       {notificationMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#131124] text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 text-xs animate-fade-in border border-[#E8DEF5]">
-          <div className="w-5 h-5 rounded-full bg-lumiere-purple text-white flex items-center justify-center font-bold">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1E0A12] text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 text-xs animate-fade-in border border-[#E8BEC5]">
+          <div className="w-5 h-5 rounded-full bg-[#701A33] text-white flex items-center justify-center font-bold">
             <Check className="w-3 h-3" />
           </div>
           <span>{notificationMessage}</span>

@@ -25,7 +25,7 @@ const FREE_SHIPPING_THRESHOLD = 150;
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
-      const saved = localStorage.getItem('auraelia_cart');
+      const saved = localStorage.getItem('grace_cart');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -38,7 +38,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem('auraelia_cart', JSON.stringify(items));
+      localStorage.setItem('grace_cart', JSON.stringify(items));
     } catch (e) {
       console.warn('LocalStorage save failed', e);
     }

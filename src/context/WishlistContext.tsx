@@ -17,10 +17,10 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [wishlistIds, setWishlistIds] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem('auraelia_wishlist');
-      return saved ? JSON.parse(saved) : ['triskin-cellular-renewal-elixir', 'lumiere-gold-radiance-serum'];
+      const saved = localStorage.getItem('grace_wishlist');
+      return saved ? JSON.parse(saved) : ['abib-glutathiosome-dark-spot-pad', 'abib-glutathiosome-dark-spot-serum'];
     } catch {
-      return ['triskin-cellular-renewal-elixir', 'lumiere-gold-radiance-serum'];
+      return ['abib-glutathiosome-dark-spot-pad', 'abib-glutathiosome-dark-spot-serum'];
     }
   });
 
@@ -28,7 +28,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     try {
-      localStorage.setItem('auraelia_wishlist', JSON.stringify(wishlistIds));
+      localStorage.setItem('grace_wishlist', JSON.stringify(wishlistIds));
     } catch (e) {
       console.warn('LocalStorage save failed', e);
     }

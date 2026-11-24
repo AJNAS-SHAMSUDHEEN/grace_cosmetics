@@ -30,12 +30,11 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
 
   const categories = [
     'All',
-    'Triskin',
+    'Skincare',
     'Serums',
     'Moisturizers',
     'Cleansers',
     'Sunscreen',
-    'Face Masks',
     'Beauty Essentials',
   ];
 
@@ -54,9 +53,7 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
     }
 
     // Category filter
-    if (activeCategory === 'Triskin') {
-      result = result.filter((p) => p.name.toLowerCase().includes('triskin'));
-    } else if (activeCategory !== 'All') {
+    if (activeCategory !== 'All') {
       result = result.filter((p) => p.category === activeCategory);
     }
 
@@ -80,11 +77,11 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1A1A1A] tracking-tight">
-            Products
+          <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1E0A12] tracking-tight">
+            Original Products
           </h2>
           {selectedConcernFromParent && (
-            <p className="text-xs text-lumiere-purple font-medium mt-1">
+            <p className="text-xs text-[#701A33] font-medium mt-1">
               Showing tailored solutions for: <strong>{selectedConcernFromParent}</strong>
             </p>
           )}
@@ -95,155 +92,132 @@ export const LumiereProducts: React.FC<LumiereProductsProps> = ({
             setActiveCategory('All');
             setSearchQuery('');
           }}
-          className="text-xs font-semibold text-[#5B4296] hover:underline uppercase tracking-wider"
+          className="text-xs font-semibold text-[#701A33] hover:underline uppercase tracking-wider"
         >
           View all
         </button>
       </div>
 
-      {/* Search & Category Filter Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        {/* Search Bar */}
-        <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-[#8E8E93] absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products (e.g. Triskin, Glow)..."
-            className="w-full bg-white border border-[#E8DEF5] rounded-full pl-10 pr-9 py-2 text-xs font-sans text-[#1A1A1A] placeholder:text-[#8E8E93] focus:outline-none focus:border-lumiere-purple shadow-xs"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
-
-        {/* Category Pills */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-          {categories.map((cat) => (
+      {/* Categories Horizontal Tabs */}
+      <div className="flex items-center space-x-2 overflow-x-auto pb-4 scrollbar-none mb-6">
+        {categories.map((cat) => {
+          const active = activeCategory === cat;
+          return (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
-                activeCategory === cat
-                  ? 'bg-lumiere-purple text-white shadow-xs'
-                  : 'bg-white text-[#554D69] hover:bg-[#F3EEFA] border border-[#E8DEF5]'
+              className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
+                active
+                  ? 'bg-[#701A33] text-white shadow-xs font-semibold'
+                  : 'bg-white text-[#55424B] border border-[#EED9DF] hover:border-[#D48D9E]'
               }`}
             >
-              {cat === 'Triskin' ? '✨ Triskin' : cat}
+              {cat}
             </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => {
-          const isFavorited = isInWishlist(product.id);
-
-          return (
-            <div
-              key={product.id}
-              className="group bg-white rounded-3xl overflow-hidden border border-[#EDE7F6] hover:border-[#D8CEF0] hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
-            >
-              {/* Image Container */}
-              <div className="relative aspect-[4/5] w-full bg-[#FAF9F7] p-3 flex items-center justify-center overflow-hidden">
-                {product.tag && (
-                  <span className="absolute top-3 left-3 z-10 px-2.5 py-0.5 rounded-full bg-white text-[9px] font-bold uppercase tracking-wider text-lumiere-purple border border-[#E5DDF5] shadow-xs">
-                    {product.tag}
-                  </span>
-                )}
-
-                <button
-                  onClick={() => toggleWishlist(product.id)}
-                  className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all ${
-                    isFavorited
-                      ? 'bg-rose-50 text-rose-500 shadow-sm'
-                      : 'bg-white/80 text-gray-400 hover:text-rose-500 hover:bg-white shadow-2xs'
-                  }`}
-                  aria-label="Wishlist"
-                >
-                  <Heart className={`w-3.5 h-3.5 ${isFavorited ? 'fill-rose-500 stroke-rose-500' : ''}`} />
-                </button>
-
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  onClick={() => onOpenDetail(product.id)}
-                  className="w-full h-full object-cover rounded-2xl cursor-pointer transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Product Info */}
-              <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                <div>
-                  <div className="flex items-center justify-between text-[11px] text-[#8E8E93] mb-1">
-                    <span className="uppercase tracking-wider font-semibold text-lumiere-purple">
-                      {product.category}
-                    </span>
-                    <span>{product.volume}</span>
-                  </div>
-
-                  <h3
-                    onClick={() => onOpenDetail(product.id)}
-                    className="font-serif text-base font-semibold text-[#1A1A1A] hover:text-lumiere-purple transition-colors cursor-pointer line-clamp-1 leading-snug"
-                  >
-                    {product.name}
-                  </h3>
-
-                  <p className="text-xs text-[#666666] line-clamp-1 mt-0.5">
-                    {product.shortDescription}
-                  </p>
-
-                  {/* Rating */}
-                  <div className="flex items-center space-x-1 mt-2">
-                    <div className="flex text-amber-400">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                    <span className="text-[11px] font-semibold text-gray-700">{product.rating}</span>
-                    <span className="text-[10px] text-gray-400">({product.reviewCount})</span>
-                  </div>
-                </div>
-
-                {/* Price & Add to Cart */}
-                <div className="pt-2 border-t border-[#F0EBF7] flex items-center justify-between">
-                  <div className="flex items-baseline space-x-1.5">
-                    <span className="font-serif text-lg font-bold text-[#1A1A1A]">
-                      ${product.price}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-xs text-gray-400 line-through">
-                        ${product.originalPrice}
-                      </span>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={() => addToCart(product, 1)}
-                    className="px-3.5 py-1.5 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white text-xs font-medium uppercase tracking-wider flex items-center space-x-1 transition-colors shadow-xs"
-                  >
-                    <ShoppingBag className="w-3 h-3" />
-                    <span>Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
           );
         })}
       </div>
 
-      {filteredProducts.length === 0 && (
-        <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 mt-6">
-          <p className="font-serif text-lg text-gray-800">No matching products found.</p>
-          <p className="text-xs text-gray-500 mt-1">Try clearing your search or filter.</p>
+      {/* Products Grid */}
+      {filteredProducts.length === 0 ? (
+        <div className="text-center py-16 bg-white rounded-3xl border border-[#EED9DF] p-8">
+          <p className="text-sm text-[#7A646E]">No products found matching your current filter.</p>
+          <button
+            onClick={() => {
+              setActiveCategory('All');
+              setSearchQuery('');
+            }}
+            className="mt-4 px-5 py-2 rounded-full bg-[#701A33] text-white text-xs font-semibold uppercase tracking-wider"
+          >
+            Reset Filters
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {filteredProducts.map((p) => {
+            const inWishlist = isInWishlist(p.id);
+            return (
+              <div
+                key={p.id}
+                className="group bg-white rounded-2xl sm:rounded-3xl border border-[#EED9DF] overflow-hidden flex flex-col justify-between hover:shadow-lg hover:border-[#D48D9E] transition-all duration-300"
+              >
+                {/* Top image box */}
+                <div
+                  className="relative aspect-square w-full overflow-hidden bg-[#FDF7F8] p-4 flex items-center justify-center cursor-pointer"
+                  onClick={() => onOpenDetail(p.id)}
+                >
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="w-full h-full object-contain transform duration-500 group-hover:scale-105"
+                  />
+
+                  {/* Badge */}
+                  {p.tag && (
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-white/95 text-[#701A33] border border-[#E8BEC5] shadow-xs">
+                      {p.tag}
+                    </span>
+                  )}
+
+                  {/* Wishlist button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleWishlist(p.id);
+                    }}
+                    className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-xs transition-colors ${
+                      inWishlist
+                        ? 'bg-rose-50 text-rose-600'
+                        : 'bg-white/90 text-gray-400 hover:text-rose-500'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 ${inWishlist ? 'fill-current' : ''}`} />
+                  </button>
+                </div>
+
+                {/* Content */}
+                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <div className="space-y-1">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#8B2C47]">
+                      {p.category}
+                    </span>
+                    <h3
+                      onClick={() => onOpenDetail(p.id)}
+                      className="font-serif text-sm sm:text-base font-semibold text-[#1E0A12] group-hover:text-[#701A33] transition-colors line-clamp-1 cursor-pointer"
+                    >
+                      {p.name}
+                    </h3>
+                    <p className="text-xs text-[#7A646E] line-clamp-2">
+                      {p.subTitle}
+                    </p>
+                  </div>
+
+                  {/* Price & Add to cart */}
+                  <div className="pt-2 border-t border-[#F7E6EB] flex items-center justify-between">
+                    <div>
+                      <span className="text-sm sm:text-base font-bold text-[#1E0A12]">
+                        ${p.price}
+                      </span>
+                      {p.originalPrice && (
+                        <span className="text-xs text-gray-400 line-through ml-1.5">
+                          ${p.originalPrice}
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={() => addToCart(p, 1)}
+                      className="p-2 sm:px-3 sm:py-1.5 rounded-full bg-[#701A33] hover:bg-[#520B1E] text-white text-xs font-medium flex items-center space-x-1.5 transition-colors shadow-xs"
+                      title="Add to Bag"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </section>

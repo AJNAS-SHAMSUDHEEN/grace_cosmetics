@@ -47,12 +47,11 @@ export const CatalogPage: React.FC = () => {
 
   const categories = [
     'All',
-    'Triskin',
+    'Skincare',
     'Serums',
     'Moisturizers',
     'Cleansers',
     'Sunscreen',
-    'Face Masks',
     'Beauty Essentials',
   ];
 
@@ -98,29 +97,25 @@ export const CatalogPage: React.FC = () => {
     setSearchParams({});
   };
 
+  // Filter & sort products
   const filteredProducts = useMemo(() => {
     let result = [...PRODUCTS];
 
-    // Concern filter
-    if (activeConcern) {
-      const concernLower = activeConcern.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.skinType.some((st) => st.toLowerCase().includes(concernLower)) ||
-          p.keyBenefits.some((kb) => kb.toLowerCase().includes(concernLower)) ||
-          p.description.toLowerCase().includes(concernLower)
-      );
-    }
-
-    // Category filter
-    if (activeCategory === 'Triskin') {
-      result = result.filter((p) => p.name.toLowerCase().includes('triskin'));
-    } else if (activeCategory !== 'All') {
+    // Category
+    if (activeCategory !== 'All') {
       result = result.filter((p) => p.category === activeCategory);
     }
 
-    // Price filter
-    result = result.filter((p) => p.price <= priceMax);
+    // Concern
+    if (activeConcern) {
+      const c = activeConcern.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.skinType.some((st) => st.toLowerCase().includes(c)) ||
+          p.keyBenefits.some((kb) => kb.toLowerCase().includes(c)) ||
+          p.description.toLowerCase().includes(c)
+      );
+    }
 
     // Search query
     if (searchQuery.trim()) {
@@ -135,6 +130,9 @@ export const CatalogPage: React.FC = () => {
       );
     }
 
+    // Price Max
+    result = result.filter((p) => p.price <= priceMax);
+
     // Sorting
     switch (sortBy) {
       case 'price-asc':
@@ -148,354 +146,333 @@ export const CatalogPage: React.FC = () => {
         break;
       case 'featured':
       default:
-        result.sort((a, b) => (b.tag ? 1 : 0) - (a.tag ? 1 : 0));
+        // Best sellers first
+        result.sort((a, b) => (b.tag === 'Best Seller' ? 1 : 0) - (a.tag === 'Best Seller' ? 1 : 0));
         break;
     }
 
     return result;
   }, [activeCategory, activeConcern, searchQuery, priceMax, sortBy]);
 
-  const hasActiveFilters = activeCategory !== 'All' || activeConcern !== null || searchQuery !== '' || priceMax < 200;
+  const hasActiveFilters =
+    activeCategory !== 'All' ||
+    activeConcern !== null ||
+    searchQuery.trim() !== '' ||
+    priceMax < 200;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-      {/* 1. Refined Breadcrumb & Editorial Header */}
-      <div className="border-b border-[#F0EBF7] pb-8 mb-8">
-        <nav className="text-xs text-[#8A859E] mb-3 flex items-center space-x-2">
-          <Link to="/" className="hover:text-lumiere-purple transition-colors">Home</Link>
-          <span>/</span>
-          <span className="text-[#1A1A1A] font-medium">Catalog</span>
-          {activeCategory !== 'All' && (
-            <>
-              <span>/</span>
-              <span className="text-lumiere-purple font-semibold">{activeCategory}</span>
-            </>
-          )}
-          {activeConcern && (
-            <>
-              <span>/</span>
-              <span className="text-[#554D69] font-medium">{activeConcern}</span>
-            </>
-          )}
-        </nav>
+      {/* Breadcrumb Navigation */}
+      <nav className="text-xs text-[#7A646E] mb-4 flex items-center space-x-2">
+        <Link to="/" className="hover:text-[#701A33] transition-colors">
+          Home
+        </Link>
+        <span>/</span>
+        <span className="text-[#1E0A12] font-medium">Catalog</span>
+        {activeCategory !== 'All' && (
+          <>
+            <span>/</span>
+            <span className="text-[#701A33] font-semibold">{activeCategory}</span>
+          </>
+        )}
+      </nav>
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] tracking-tight">
-              Curated Formulations
-            </h1>
-            <p className="text-sm text-[#666666] mt-2 max-w-2xl leading-relaxed">
-              Explore science-backed clinical skincare, active cellular bio-peptides, and dermatological essentials engineered for barrier resilience.
-            </p>
-          </div>
-
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white border border-[#E8DEF5] text-xs text-[#554D69] shadow-2xs self-start md:self-auto shrink-0">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Showing <strong className="text-[#1A1A1A]">{filteredProducts.length}</strong> formulations</span>
-          </div>
+      {/* Page Title & Subtitle */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1E0A12] tracking-tight">
+            Curated K-Beauty & Skincare Formulations
+          </h1>
+          <p className="text-sm text-[#7A646E] mt-1 max-w-2xl font-sans">
+            100% Original Products. Authentic Korean skincare, active cellular serums, and dermatological essentials from Grace Beauty Store (@gracecosmetics._).
+          </p>
         </div>
+        <span className="text-xs text-[#7A646E] font-medium whitespace-nowrap">
+          Showing <strong>{filteredProducts.length}</strong> formulations
+        </span>
       </div>
 
-      {/* 2. Top Category Pills Bar (Horizontal scroll with elegant active indicator) */}
-      <div className="mb-6 flex items-center space-x-2 overflow-x-auto pb-2 no-scrollbar">
-        {categories.map((cat) => {
-          const isSelected = activeCategory === cat;
-          return (
-            <button
-              key={cat}
-              onClick={() => handleCategoryClick(cat)}
-              className={`px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all whitespace-nowrap cursor-pointer ${
-                isSelected
-                  ? 'bg-[#131124] text-white shadow-sm'
-                  : 'bg-white hover:bg-[#F3EEFA] text-[#4A4A4A] border border-[#E8DEF5] hover:border-[#D5C7EE]'
-              }`}
-            >
-              {cat}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* 3. Luxury Utility Toolbar: Search + Concern Selector + Price + Sort */}
-      <div className="bg-white rounded-2xl border border-[#EFEBF7] p-3 sm:p-4 shadow-xs mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-          {/* Integrated Search Input */}
-          <div className="md:col-span-5 relative">
-            <Search className="w-4 h-4 text-[#8A859E] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+      {/* Unboxed Luxury Filter Toolbar */}
+      <div className="mb-10 space-y-4">
+        {/* Row 1: Search + Sort + Price Range */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          {/* Search Input */}
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
-              placeholder="Search by ingredient, concern, or name (e.g. Niacinamide, Retinol, Acne)..."
+              placeholder="Search formulations, active ingredients (e.g. Glutathione, Azelaic Acid)..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-[#FAF9F7] border border-[#E8DEF5] text-xs text-[#1A1A1A] placeholder:text-[#9B95AC] focus:outline-none focus:border-lumiere-purple focus:bg-white transition-all"
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                const newParams = new URLSearchParams(searchParams);
+                if (e.target.value) {
+                  newParams.set('search', e.target.value);
+                } else {
+                  newParams.delete('search');
+                }
+                setSearchParams(newParams);
+              }}
+              className="w-full pl-10 pr-9 py-2 rounded-full bg-white border border-[#EED9DF] text-xs text-[#1E0A12] placeholder:text-gray-400 focus:outline-none focus:border-[#701A33] transition-colors"
             />
             {searchQuery && (
               <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 p-1"
-                title="Clear search"
+                onClick={() => {
+                  setSearchQuery('');
+                  const newParams = new URLSearchParams(searchParams);
+                  newParams.delete('search');
+                  setSearchParams(newParams);
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black p-0.5"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
 
-          {/* Skin Concern Selector */}
-          <div className="md:col-span-3">
-            <select
-              value={activeConcern || 'All Concerns'}
-              onChange={(e) => handleConcernClick(e.target.value)}
-              className="w-full py-2.5 px-3.5 rounded-xl bg-[#FAF9F7] border border-[#E8DEF5] text-xs text-[#1A1A1A] font-medium focus:outline-none focus:border-lumiere-purple cursor-pointer"
-            >
-              <option value="All Concerns">All Skin Concerns</option>
-              {skinConcerns.filter((c) => c !== 'All Concerns').map((con) => (
-                <option key={con} value={con}>
-                  Target: {con}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* Sort By Dropdown */}
-          <div className="md:col-span-2">
+          <div className="relative shrink-0">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full py-2.5 px-3 rounded-xl bg-[#FAF9F7] border border-[#E8DEF5] text-xs text-[#1A1A1A] font-medium focus:outline-none focus:border-lumiere-purple cursor-pointer"
+              className="w-full sm:w-auto appearance-none bg-white border border-[#EED9DF] rounded-full pl-4 pr-9 py-2 text-xs font-medium text-[#1E0A12] focus:outline-none focus:border-[#701A33] cursor-pointer"
             >
-              <option value="featured">Sort: Featured</option>
+              <option value="featured">Sort by: Featured</option>
+              <option value="rating">Highest Rated</option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
             </select>
+            <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
-          {/* Price Cap Filter */}
-          <div className="md:col-span-2 flex items-center justify-between px-3 py-2 bg-[#FAF9F7] rounded-xl border border-[#E8DEF5] text-xs">
-            <span className="text-[#8A859E] font-medium">Max:</span>
+          {/* Inline Price Slider */}
+          <div className="flex items-center space-x-2 bg-white border border-[#EED9DF] rounded-full px-4 py-2 shrink-0">
+            <span className="text-xs text-[#7A646E] whitespace-nowrap">Max:</span>
             <input
               type="range"
-              min="20"
+              min="15"
               max="200"
               step="5"
               value={priceMax}
               onChange={(e) => setPriceMax(Number(e.target.value))}
-              className="w-20 sm:w-24 accent-lumiere-purple cursor-pointer mx-2"
+              className="w-24 sm:w-28 accent-[#701A33] cursor-pointer h-1.5"
             />
-            <span className="font-bold text-[#1A1A1A]">${priceMax}</span>
+            <span className="text-xs font-semibold text-[#1E0A12] min-w-[2.5rem]">
+              ${priceMax}
+            </span>
           </div>
         </div>
 
-        {/* Quick Concern Pills (Horizontal bar for quick single-click filtering) */}
-        <div className="mt-3 pt-3 border-t border-[#F2EDFA] flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 max-w-full no-scrollbar">
-            <span className="text-[11px] font-semibold text-[#8A859E] mr-1 hidden sm:inline">
-              Quick Filter:
-            </span>
-            {skinConcerns.map((con) => {
-              const isSelected = (!activeConcern && con === 'All Concerns') || (activeConcern === con);
-              return (
-                <button
-                  key={con}
-                  onClick={() => handleConcernClick(con)}
-                  className={`px-3 py-1 rounded-full text-xs transition-all whitespace-nowrap cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#EAE2F8] text-[#4A3578] font-semibold border border-[#D5C7EE]'
-                      : 'bg-white hover:bg-[#FAF9F7] text-[#666666] border border-[#EFEBF7]'
-                  }`}
-                >
-                  {con}
-                </button>
-              );
-            })}
-          </div>
+        {/* Row 2: Category Filter Pills */}
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#7A646E] mr-1">
+            Category:
+          </span>
+          {categories.map((cat) => {
+            const active = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => handleCategoryClick(cat)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                  active
+                    ? 'bg-[#701A33] text-white font-semibold shadow-xs'
+                    : 'bg-white text-[#55424B] border border-[#EED9DF] hover:border-[#D48D9E]'
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
 
           {hasActiveFilters && (
             <button
               onClick={resetAllFilters}
-              className="text-xs text-[#5B4296] hover:text-[#3B2568] font-semibold flex items-center space-x-1 transition-colors"
+              className="ml-auto text-xs text-[#701A33] hover:text-[#520B1E] flex items-center space-x-1 font-medium transition-colors"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>Reset All Filters</span>
+              <span>Reset Filters</span>
             </button>
           )}
         </div>
+
+        {/* Row 3: Skin Concern Pills */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#7A646E] mr-1">
+            Concern:
+          </span>
+          {skinConcerns.map((con) => {
+            const active = (con === 'All Concerns' && !activeConcern) || activeConcern === con;
+            return (
+              <button
+                key={con}
+                onClick={() => handleConcernClick(con)}
+                className={`px-3 py-1 rounded-full text-xs transition-colors cursor-pointer ${
+                  active
+                    ? 'bg-[#FCEEF1] text-[#701A33] font-semibold border border-[#E8BEC5]'
+                    : 'bg-white text-[#6B5861] border border-[#EED9DF] hover:border-[#D48D9E]'
+                }`}
+              >
+                {con}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Active Filter Badges */}
+        {hasActiveFilters && (
+          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-[#7A646E]">
+            <span>Active Filters:</span>
+            {activeCategory !== 'All' && (
+              <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-[#FCEEF1] text-[#701A33] font-medium text-[11px]">
+                <span>Category: {activeCategory}</span>
+                <button onClick={() => handleCategoryClick('All')}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {activeConcern && (
+              <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-[#FCEEF1] text-[#701A33] font-medium text-[11px]">
+                <span>Concern: {activeConcern}</span>
+                <button onClick={() => handleConcernClick('All Concerns')}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {searchQuery && (
+              <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-[#FCEEF1] text-[#701A33] font-medium text-[11px]">
+                <span>Search: "{searchQuery}"</span>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    const newParams = new URLSearchParams(searchParams);
+                    newParams.delete('search');
+                    setSearchParams(newParams);
+                  }}
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {priceMax < 200 && (
+              <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-[#FCEEF1] text-[#701A33] font-medium text-[11px]">
+                <span>Under ${priceMax}</span>
+                <button onClick={() => setPriceMax(200)}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* 4. Active Filter Tags */}
-      {hasActiveFilters && (
-        <div className="flex items-center flex-wrap gap-2 mb-6 text-xs animate-fade-in">
-          <span className="text-[#8A859E]">Active Filters:</span>
-          {activeCategory !== 'All' && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-white border border-[#E0D8ED] text-[#4A3578] text-xs font-medium shadow-2xs">
-              Category: {activeCategory}
-              <button
-                onClick={() => handleCategoryClick('All')}
-                className="ml-2 hover:text-black p-0.5"
-                title="Remove category filter"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </span>
-          )}
-          {activeConcern && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-white border border-[#E0D8ED] text-[#4A3578] text-xs font-medium shadow-2xs">
-              Concern: {activeConcern}
-              <button
-                onClick={() => handleConcernClick('All Concerns')}
-                className="ml-2 hover:text-black p-0.5"
-                title="Remove concern filter"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </span>
-          )}
-          {searchQuery && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-white border border-[#E0D8ED] text-[#4A3578] text-xs font-medium shadow-2xs">
-              Keyword: "{searchQuery}"
-              <button
-                onClick={() => setSearchQuery('')}
-                className="ml-2 hover:text-black p-0.5"
-                title="Clear search keyword"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </span>
-          )}
-          {priceMax < 200 && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-white border border-[#E0D8ED] text-[#4A3578] text-xs font-medium shadow-2xs">
-              Under: ${priceMax}
-              <button
-                onClick={() => setPriceMax(200)}
-                className="ml-2 hover:text-black p-0.5"
-                title="Reset price limit"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </span>
-          )}
+      {/* Product Grid */}
+      {filteredProducts.length === 0 ? (
+        <div className="text-center py-20 bg-white rounded-3xl border border-[#EED9DF] p-8 space-y-4">
+          <p className="text-base font-serif text-[#1E0A12]">
+            No formulations matched your specific criteria.
+          </p>
+          <p className="text-xs text-[#7A646E] max-w-md mx-auto">
+            Try adjusting your search terms, increasing the maximum price, or resetting filters to browse our full clinical line.
+          </p>
+          <button
+            onClick={resetAllFilters}
+            className="px-6 py-2.5 rounded-full bg-[#701A33] text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#520B1E] transition-colors"
+          >
+            Reset All Filters
+          </button>
         </div>
-      )}
-
-      {/* 5. Products Grid */}
-      {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {filteredProducts.map((product) => {
-            const isFav = isInWishlist(product.id);
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          {filteredProducts.map((p) => {
+            const inWishlist = isInWishlist(p.id);
             return (
               <div
-                key={product.id}
-                className="group bg-white rounded-3xl border border-[#EFEBF7] p-4 sm:p-5 flex flex-col justify-between hover:shadow-lg hover:border-lumiere-purple/30 transition-all duration-300"
+                key={p.id}
+                className="group bg-white rounded-2xl sm:rounded-3xl border border-[#EED9DF] overflow-hidden flex flex-col justify-between hover:shadow-lg hover:border-[#D48D9E] transition-all duration-300"
               >
-                {/* Media Section */}
-                <div>
-                  <div className="relative aspect-[4/5] rounded-2xl bg-[#FAF9F7] overflow-hidden mb-4">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                    />
+                {/* Top Image Box */}
+                <div
+                  className="relative aspect-square w-full overflow-hidden bg-[#FDF7F8] p-4 flex items-center justify-center cursor-pointer"
+                  onClick={() => navigate(`/product/${p.id}`)}
+                >
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="w-full h-full object-contain transform duration-500 group-hover:scale-105"
+                  />
 
-                    {/* Tag badge */}
-                    {product.tag && (
-                      <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-xs text-[10px] font-bold tracking-wider uppercase text-lumiere-purple border border-[#E8DEF5] shadow-xs">
-                        {product.tag}
-                      </span>
-                    )}
-
-                    {/* Wishlist Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleWishlist(product.id);
-                      }}
-                      className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                        isFav
-                          ? 'bg-rose-50 text-rose-500 shadow-sm'
-                          : 'bg-white/90 text-gray-400 hover:text-rose-500 hover:bg-white shadow-2xs'
-                      }`}
-                      title={isFav ? 'Remove from wishlist' : 'Save to wishlist'}
-                    >
-                      <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 stroke-rose-500' : ''}`} />
-                    </button>
-                  </div>
-
-                  {/* Category & Rating */}
-                  <div className="flex items-center justify-between text-[11px] text-[#8A859E] mb-1.5">
-                    <span className="uppercase tracking-widest font-semibold text-lumiere-purple">
-                      {product.category}
+                  {/* Badge */}
+                  {p.tag && (
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-white/95 text-[#701A33] border border-[#E8BEC5] shadow-xs">
+                      {p.tag}
                     </span>
-                    <div className="flex items-center space-x-1">
-                      <Star className="w-3.5 h-3.5 fill-amber-400 stroke-amber-400" />
-                      <span className="font-bold text-[#1A1A1A]">{product.rating}</span>
-                      <span className="text-[#8A859E]">({product.reviewCount})</span>
-                    </div>
-                  </div>
+                  )}
 
-                  {/* Title & Subtitle */}
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="block group-hover:text-lumiere-purple transition-colors"
+                  {/* Wishlist Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleWishlist(p.id);
+                    }}
+                    className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-xs transition-colors ${
+                      inWishlist
+                        ? 'bg-rose-50 text-rose-600'
+                        : 'bg-white/90 text-gray-400 hover:text-rose-500'
+                    }`}
                   >
-                    <h3 className="font-serif text-sm sm:text-base font-semibold text-[#1A1A1A] line-clamp-1 leading-snug">
-                      {product.name}
-                    </h3>
-                  </Link>
-                  <p className="text-xs text-[#7A748E] line-clamp-2 mt-1 leading-relaxed">
-                    {product.subTitle || product.shortDescription}
-                  </p>
+                    <Heart className={`w-4 h-4 ${inWishlist ? 'fill-current' : ''}`} />
+                  </button>
                 </div>
 
-                {/* Price & Action Row */}
-                <div className="pt-4 mt-3 border-t border-[#F2EDFA] flex items-center justify-between">
-                  <div>
-                    <span className="text-base sm:text-lg font-bold text-[#1A1A1A]">
-                      ${product.price.toFixed(2)}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-xs text-gray-400 line-through ml-1.5">
-                        ${product.originalPrice.toFixed(2)}
+                {/* Content */}
+                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between text-[10px] uppercase font-bold tracking-wider text-[#8B2C47]">
+                      <span>{p.category}</span>
+                      <span className="text-[#D4A359] flex items-center space-x-1">
+                        <Star className="w-3 h-3 fill-current inline" />
+                        <span>{p.rating}</span>
                       </span>
-                    )}
+                    </div>
+
+                    <h3
+                      onClick={() => navigate(`/product/${p.id}`)}
+                      className="font-serif text-sm sm:text-base font-semibold text-[#1E0A12] group-hover:text-[#701A33] transition-colors line-clamp-1 cursor-pointer"
+                    >
+                      {p.name}
+                    </h3>
+                    <p className="text-xs text-[#7A646E] line-clamp-2 leading-relaxed">
+                      {p.subTitle}
+                    </p>
                   </div>
 
-                  <div className="flex items-center space-x-2">
-                    <Link
-                      to={`/product/${product.id}`}
-                      className="px-3 py-1.5 rounded-full bg-[#FAF9F7] hover:bg-[#EFEBF7] text-[#4A3578] text-xs font-semibold transition-colors"
-                    >
-                      Details
-                    </Link>
+                  {/* Price & Add to Bag */}
+                  <div className="pt-2 border-t border-[#F7E6EB] flex items-center justify-between">
+                    <div>
+                      <span className="text-sm sm:text-base font-bold text-[#1E0A12]">
+                        ${p.price}
+                      </span>
+                      {p.originalPrice && (
+                        <span className="text-xs text-gray-400 line-through ml-1.5">
+                          ${p.originalPrice}
+                        </span>
+                      )}
+                    </div>
+
                     <button
-                      onClick={() => addToCart(product, 1)}
-                      className="w-8 h-8 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white flex items-center justify-center transition-all shadow-xs"
-                      title="Add to bag"
+                      onClick={() => addToCart(p, 1)}
+                      className="p-2 sm:px-3 sm:py-1.5 rounded-full bg-[#701A33] hover:bg-[#520B1E] text-white text-xs font-medium flex items-center space-x-1.5 transition-colors shadow-xs"
+                      title="Add to Bag"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Add</span>
                     </button>
                   </div>
                 </div>
               </div>
             );
           })}
-        </div>
-      ) : (
-        <div className="py-20 text-center bg-white rounded-3xl border border-[#EFEBF7] max-w-xl mx-auto px-6 shadow-xs">
-          <div className="w-14 h-14 rounded-full bg-[#FAF9F7] text-lumiere-purple flex items-center justify-center mx-auto mb-4 border border-[#E8DEF5]">
-            <Search className="w-6 h-6" />
-          </div>
-          <h3 className="font-serif text-xl font-bold text-[#1A1A1A] mb-2">
-            No matching formulations found
-          </h3>
-          <p className="text-xs sm:text-sm text-[#666666] leading-relaxed mb-6">
-            We couldn't find any products matching your specific combination of filters. Try clearing your filters to explore our full clinical collection.
-          </p>
-          <button
-            onClick={resetAllFilters}
-            className="px-6 py-3 rounded-full bg-lumiere-purple text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#4A3578] transition-colors shadow-md"
-          >
-            Clear All Filters
-          </button>
         </div>
       )}
     </div>

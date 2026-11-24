@@ -260,7 +260,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onOpenChec
                     addToCart(product, quantity);
                     onOpenCheckoutModal();
                   }}
-                  className="w-full py-2.5 rounded-full bg-[#EAE2F8] hover:bg-[#D8CEF0] text-[#4A3578] text-xs font-semibold uppercase tracking-wider transition-colors"
+                  className="w-full py-2.5 rounded-full bg-[#FCEEF1] hover:bg-[#F8E9EE] text-[#701A33] border border-[#E8BEC5] text-xs font-semibold uppercase tracking-wider transition-colors"
                 >
                   Instant Express Checkout
                 </button>
@@ -268,14 +268,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onOpenChec
             </div>
 
             {/* Shipping & Return guarantees */}
-            <div className="pt-4 flex items-center justify-between text-[11px] text-[#8A859E]">
+            <div className="pt-4 flex items-center justify-between text-[11px] text-[#7A646E]">
               <span className="flex items-center space-x-1">
                 <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Complimentary Express Shipping on orders over $60</span>
+                <span>100% Authentic Original • Same Day Delivery Available</span>
               </span>
               <span className="flex items-center space-x-1">
-                <RotateCcw className="w-3.5 h-3.5 text-lumiere-purple" />
-                <span>30-Day Guarantee</span>
+                <RotateCcw className="w-3.5 h-3.5 text-[#701A33]" />
+                <span>Quality Guaranteed</span>
               </span>
             </div>
           </div>
