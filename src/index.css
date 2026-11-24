@@ -48,3 +48,24 @@
 .hero-gradient {
   background: linear-gradient(135deg, #F3EEFA 0%, #E9E1F7 50%, #DDD2F2 100%);
 }
+
+/* Auto Side Scrolling Marquee */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 24s linear infinite;
+}
+
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}
+

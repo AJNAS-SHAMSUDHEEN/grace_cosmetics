@@ -149,22 +149,31 @@ export const HealthSolutionChat: React.FC<HealthSolutionChatProps> = ({ onOpenDe
           </button>
         </div>
 
-        {/* Quick Suggestion Pills */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-2.5">
-          <span className="text-[11px] font-semibold text-[#7E69AB] mr-1">Popular Concerns:</span>
-          {quickConditions.map((qc) => (
-            <button
-              key={qc.query}
-              onClick={() => handleSelectCondition(qc.query)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors border ${
-                searchInput.toLowerCase() === qc.query.toLowerCase()
-                  ? 'bg-[#5B4296] text-white border-[#5B4296]'
-                  : 'bg-white/80 hover:bg-[#F3EEFA] text-[#554D69] border-[#E8DEF5]'
-              }`}
-            >
-              {qc.label}
-            </button>
-          ))}
+        {/* Auto Side-Scrolling Quick Suggestion Pills (In one line, matching search bar width, without 'Popular Concerns') */}
+        <div className="relative w-full overflow-hidden pt-2.5">
+          {/* Subtle edge fade gradients */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-[#F5F0FB] to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[#EDE6F8] to-transparent z-10" />
+
+          {/* Scrolling ticker track */}
+          <div className="animate-marquee-slow flex items-center space-x-2 py-0.5">
+            {[...quickConditions, ...quickConditions].map((qc, index) => {
+              const isSelected = searchInput.toLowerCase() === qc.query.toLowerCase();
+              return (
+                <button
+                  key={`${qc.query}-${index}`}
+                  onClick={() => handleSelectCondition(qc.query)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all border shrink-0 ${
+                    isSelected
+                      ? 'bg-[#5B4296] text-white border-[#5B4296] shadow-xs'
+                      : 'bg-white/90 hover:bg-white text-[#554D69] border-[#E0D8ED] hover:border-[#5B4296] hover:text-[#5B4296] shadow-2xs'
+                  }`}
+                >
+                  {qc.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Relevant Products Display (Appears smoothly when query matches) */}
