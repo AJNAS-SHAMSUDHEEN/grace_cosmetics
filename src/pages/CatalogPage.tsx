@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import { PRODUCTS } from '../data/products';
+import { useShop } from '../context/ShopContext';
 import { Product } from '../types';
 import {
   Star,
@@ -27,6 +27,7 @@ export const CatalogPage: React.FC = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { products } = useShop();
 
   // Read params from URL
   const initialCategory = searchParams.get('category') || 'All';
@@ -85,14 +86,14 @@ export const CatalogPage: React.FC = () => {
 
   // Category counts
   const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = { All: PRODUCTS.length };
+    const counts: Record<string, number> = { All: products.length };
     categories.forEach((cat) => {
       if (cat !== 'All') {
-        counts[cat] = PRODUCTS.filter((p) => p.category === cat).length;
+        counts[cat] = products.filter((p) => p.category === cat).length;
       }
     });
     return counts;
-  }, []);
+  }, [products]);
 
   const handleCategoryClick = (cat: string) => {
     setActiveCategory(cat);
@@ -150,7 +151,7 @@ export const CatalogPage: React.FC = () => {
 
   // Filter & sort products
   const filteredProducts = useMemo(() => {
-    let result = [...PRODUCTS];
+    let result = [...products];
 
     // Category
     if (activeCategory !== 'All') {
@@ -214,7 +215,7 @@ export const CatalogPage: React.FC = () => {
     }
 
     return result;
-  }, [activeCategory, activeConcern, searchQuery, priceBracket, priceMax, minRating, sortBy]);
+  }, [products, activeCategory, activeConcern, searchQuery, priceBracket, priceMax, minRating, sortBy]);
 
   // Reusable Filter Sidebar/Drawer Content
   const renderFilterPanel = () => (

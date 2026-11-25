@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { ShopProvider } from './context/ShopContext';
 import { CartProvider, useCart } from './context/CartContext';
 import { WishlistProvider, useWishlist } from './context/WishlistContext';
 import { ScrollToTop } from './components/common/ScrollToTop';
@@ -10,6 +12,7 @@ import { WishlistDrawer } from './components/layout/WishlistDrawer';
 import { GlobalSearchModal } from './components/common/GlobalSearchModal';
 import { CheckoutModal } from './components/common/CheckoutModal';
 import { ProductDetailModal } from './components/products/ProductDetailModal';
+import { AuthModal } from './components/auth/AuthModal';
 
 // Dedicated Pages
 import { HomePage } from './pages/HomePage';
@@ -19,6 +22,10 @@ import { CategoriesPage } from './pages/CategoriesPage';
 import { SolutionsPage } from './pages/SolutionsPage';
 import { RitualsPage } from './pages/RitualsPage';
 import { ContactPage } from './pages/ContactPage';
+import { CheckoutPage } from './pages/CheckoutPage';
+import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { AdminPage } from './pages/AdminPage';
 
 import { Check, X } from 'lucide-react';
 
@@ -66,12 +73,19 @@ const AppRoutes: React.FC = () => {
           <Route path="/catalog" element={<div className="pt-20 sm:pt-24"><CatalogPage /></div>} />
           <Route
             path="/product/:id"
-            element={<div className="pt-20 sm:pt-24"><ProductDetailPage onOpenCheckoutModal={() => setIsCheckoutModalOpen(true)} /></div>}
+            element={<div className="pt-20 sm:pt-24"><ProductDetailPage onOpenCheckoutModal={() => navigate('/checkout')} /></div>}
           />
           <Route path="/categories" element={<div className="pt-20 sm:pt-24"><CategoriesPage /></div>} />
           <Route path="/solutions" element={<div className="pt-20 sm:pt-24"><SolutionsPage /></div>} />
           <Route path="/rituals" element={<div className="pt-20 sm:pt-24"><RitualsPage /></div>} />
           <Route path="/contact" element={<div className="pt-20 sm:pt-24"><ContactPage /></div>} />
+          
+          {/* Real E-Commerce Core Routes */}
+          <Route path="/checkout" element={<div className="pt-20 sm:pt-24"><CheckoutPage /></div>} />
+          <Route path="/order-confirmation/:orderId" element={<div className="pt-20 sm:pt-24"><OrderConfirmationPage /></div>} />
+          <Route path="/profile" element={<div className="pt-20 sm:pt-24"><ProfilePage /></div>} />
+          <Route path="/admin" element={<div className="pt-20 sm:pt-24"><AdminPage /></div>} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
@@ -81,7 +95,7 @@ const AppRoutes: React.FC = () => {
 
       {/* Global Interactive Drawers & Overlays */}
       <CartDrawer
-        onOpenCheckoutModal={() => setIsCheckoutModalOpen(true)}
+        onOpenCheckoutModal={() => navigate('/checkout')}
         onExploreProducts={() => {
           setIsCartOpen(false);
           navigate('/catalog');
@@ -119,11 +133,14 @@ const AppRoutes: React.FC = () => {
         }}
       />
 
-      {/* Checkout Modal */}
+      {/* Checkout Modal (kept for legacy popups, redirects to checkout page) */}
       <CheckoutModal
         isOpen={isCheckoutModalOpen}
         onClose={() => setIsCheckoutModalOpen(false)}
       />
+
+      {/* Global Auth Modal for Login & Registration */}
+      <AuthModal />
     </div>
   );
 };
@@ -131,11 +148,15 @@ const AppRoutes: React.FC = () => {
 export function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
-        <WishlistProvider>
-          <AppRoutes />
-        </WishlistProvider>
-      </CartProvider>
+      <AuthProvider>
+        <ShopProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <AppRoutes />
+            </WishlistProvider>
+          </CartProvider>
+        </ShopProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

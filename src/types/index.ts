@@ -25,6 +25,8 @@ export interface Product {
   texture: string;
   finishColor?: string;
   is3dAvailable?: boolean;
+  inStock?: boolean;
+  stockCount?: number;
 }
 
 export interface Collection {
@@ -65,3 +67,72 @@ export interface FilterState {
   skinType: string;
 }
 
+export interface Address {
+  id: string;
+  fullName: string;
+  phone: string;
+  streetAddress: string;
+  apartment?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault?: boolean;
+}
+
+export type UserRole = 'customer' | 'admin';
+
+export interface UserProfile {
+  uid: string;
+  email: string;
+  displayName: string;
+  role: UserRole;
+  phone?: string;
+  addresses: Address[];
+  createdAt: string;
+}
+
+export type OrderStatus = 'processing' | 'shipped' | 'delivered' | 'cancelled';
+export type PaymentMethod = 'cod' | 'card_test';
+export type PaymentStatus = 'paid' | 'pending' | 'failed';
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  userId?: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  shippingAddress: Address;
+  items: CartItem[];
+  subtotal: number;
+  shippingFee: number;
+  discount: number;
+  total: number;
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
+  orderStatus: OrderStatus;
+  couponCode?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+  estimatedDelivery: string;
+}
+
+export interface Coupon {
+  code: string;
+  discountPercent: number;
+  minOrder: number;
+  description: string;
+  isActive: boolean;
+}
+
+export interface ProductReview {
+  id: string;
+  productId: string;
+  userId: string;
+  userName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}

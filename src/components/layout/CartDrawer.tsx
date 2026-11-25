@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Trash2, Plus, Minus, ArrowRight, ShieldCheck, Sparkles, ShoppingBag } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
@@ -11,6 +12,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onOpenCheckoutModal,
   onExploreProducts,
 }) => {
+  const navigate = useNavigate();
   const {
     items,
     removeFromCart,
@@ -223,16 +225,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <button
                 onClick={() => {
                   setIsCartOpen(false);
-                  onOpenCheckoutModal();
+                  navigate('/checkout');
                 }}
-                className="w-full py-3.5 rounded-full bg-[#131124] hover:bg-lumiere-purple text-white text-xs uppercase tracking-widest font-bold shadow-md hover:shadow-lg flex items-center justify-center space-x-2 transition-all"
+                className="w-full py-3.5 rounded-full bg-[#701A33] hover:bg-[#520B1E] text-white text-xs uppercase tracking-widest font-bold shadow-md hover:shadow-lg flex items-center justify-center space-x-2 transition-all cursor-pointer"
               >
                 <span>PROCEED TO CHECKOUT</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <div className="flex items-center justify-center space-x-1.5 text-[10px] text-gray-400">
-                <ShieldCheck className="w-3.5 h-3.5 text-lumiere-purple" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#701A33]" />
                 <span>Secure 256-Bit Encrypted Checkout</span>
               </div>
             </div>
